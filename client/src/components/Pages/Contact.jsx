@@ -40,38 +40,38 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    try {
-      const data = {
-        service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-        user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-        template_params: {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-        },
-      };
+  //   try {
+  //     const data = {
+  //       service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  //       template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  //       user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+  //       template_params: {
+  //         from_name: formData.name,
+  //         from_email: formData.email,
+  //         message: formData.message,
+  //       },
+  //     };
 
-      const res = await axios.post(
-        "https://api.emailjs.com/api/v1.0/email/send",
-        data
-      );
+  //     const res = await axios.post(
+  //       "https://api.emailjs.com/api/v1.0/email/send",
+  //       data
+  //     );
 
-      console.log(res.data);
-      alert("Message sent successfully!");
+  //     console.log(res.data);
+  //     alert("Message sent successfully!");
 
-      setFormData({
-        name: "",
-        email: "",
-        message: "",
-      });
-    } catch (error) {
-      console.error(error);
-      alert("Failed to send message. Try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  //     setFormData({
+  //       name: "",
+  //       email: "",
+  //       message: "",
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //     alert("Failed to send message. Try again.");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
   return (
     <section className="py-20 lg:py-32 bg-[#111111]">

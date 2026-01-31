@@ -1,51 +1,67 @@
 import axios from "axios";
-import { Axis3D } from "lucide-react";
+
+/*
+  ONE axios instance
+  uses env for both local + production
+*/
+
+const API = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
+
+//  PROJECTS 
 
 export const fetchProjects = async () => {
-  const res = await axios.get("/api/projects");
-  return res.data;
-};
-
-export const fetchPersonalInfo = async () => {
-  const res = await axios.get("/api/personalInfo");
-  return res.data;
-};
-
-export const fetchSkills = async () => {
-  const res = await axios.get("/api/skills");
-  return res.data;
-};
-
-export const fetchGetSkills = async () => {
-  const res = await axios.get("/api/skills");
+  const res = await API.get("/api/projects");
   return res.data;
 };
 
 export const fetchProjectById = async (id) => {
-  const res = await axios.get(`/api/projects/${id}`);
+  const res = await API.get(`/api/projects/${id}`);
+  return res.data;
+};
+
+export const createProject = async (data) => {
+  const res = await API.post("/api/projects/create", data);
   return res.data;
 };
 
 export const updateProject = async (id, updatedData) => {
-  //update THIS project (id) using THIS new data (updatedData)”
-
-  const res = await axios.put(`/api/projects/${id}`, updatedData);
-  return res.data;
-};
-
-export const createProject = async (updateProject) => {
-  const res = await axios.post("/api/projects/create", updateProject);
-  return res.data;
-};
-
-export const updateSkill = async (updatedData) => {
-  const res = await axios.put("/api/skills/edit", updatedData, {
-    withCredentials: true,
-  });
+  const res = await API.put(`/api/projects/${id}`, updatedData);
   return res.data;
 };
 
 export const deleteProject = async (id) => {
-  const res = await axios.delete(`/api/projects/${id}`);
+  const res = await API.delete(`/api/projects/${id}`);
+  return res.data;
+};
+
+
+//  SKILLS 
+
+export const fetchSkills = async () => {
+  const res = await API.get("/api/skills");
+  return res.data;
+};
+
+export const updateSkill = async (updatedData) => {
+  const res = await API.put("/api/skills/edit", updatedData);
+  return res.data;
+};
+
+
+//  PERSONAL INFO 
+
+export const fetchPersonalInfo = async () => {
+  const res = await API.get("/api/personalInfo");
+  return res.data;
+};
+
+
+//  CONTACT 
+
+export const createContact = async (data) => {
+  const res = await API.post("/api/contact", data);
   return res.data;
 };
