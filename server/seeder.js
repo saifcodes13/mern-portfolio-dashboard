@@ -4,10 +4,12 @@ import colors from "colors";
 import connectDB from "./config/db.config.js";
 import { projects } from "./data/projects.data.js";
 import { skills } from "./data/skills.data.js";
+import userData from  "./data/user.data.js"
 import contactData from "./data/contact.data.js";
 import ProjectModel from "./models/project.model.js";
 import SkillModel from "./models/skill.model.js";
 import ContactModel from "./models/contact.model.js";
+import UserModel from "./models/user.model.js";
 
 dotenv.config();
 connectDB();
@@ -17,11 +19,14 @@ const importData = async () => {
     //Clear old data
     await ProjectModel.deleteMany();
     await SkillModel.deleteMany();
-    await ContactModel.deleteMany()
-
+    await ContactModel.deleteMany();
+    await UserModel.deleteMany()
+    
+    await UserModel.insertMany(userData)
     //Insert Projects
     await ProjectModel.insertMany(projects);
-    await ContactModel.insertMany(contactData)
+    await ContactModel.insertMany(contactData);
+
 
     //Insert skills
     //You want to insert ONE document(object) use .create() insertmany() expects array
