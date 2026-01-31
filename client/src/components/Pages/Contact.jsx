@@ -1,15 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  Github,
-  Linkedin,
-  Twitter,
-} from "lucide-react";
-import { fetchPersonalInfo } from "../../api/portfolioApi";
+import { Mail, Phone, MapPin, Send, Github, Linkedin } from "lucide-react";
+
+import { fetchPersonalInfo, createContact } from "../../api/portfolioApi";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,21 +9,25 @@ const Contact = () => {
     email: "",
     message: "",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [personalInfo, setPersonalInfo] = useState("");
+
   useEffect(() => {
     const loadData = async () => {
       try {
         const data = await fetchPersonalInfo();
         setPersonalInfo(data);
       } catch (error) {
-        console.error("Failed to fetch projects:", error);
+        console.error("Failed to fetch personal info:", error);
       }
     };
 
     loadData();
   }, []);
-  if(!personalInfo) return null
+
+  if (!personalInfo) return null;
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -40,38 +36,23 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-  //   try {
-  //     const data = {
-  //       service_id: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-  //       template_id: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-  //       user_id: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-  //       template_params: {
-  //         from_name: formData.name,
-  //         from_email: formData.email,
-  //         message: formData.message,
-  //       },
-  //     };
+    try {
+      await createContact(formData);
 
-  //     const res = await axios.post(
-  //       "https://api.emailjs.com/api/v1.0/email/send",
-  //       data
-  //     );
+      alert("Message sent successfully!");
 
-  //     console.log(res.data);
-  //     alert("Message sent successfully!");
-
-  //     setFormData({
-  //       name: "",
-  //       email: "",
-  //       message: "",
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Failed to send message. Try again.");
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
+      setFormData({
+        name: "",
+        email: "",
+        message: "",
+      });
+    } catch (error) {
+      console.error(error);
+      alert("Failed to send message. Try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section className="py-20 lg:py-32 bg-[#111111]">
@@ -82,6 +63,7 @@ const Contact = () => {
             <h2 className="text-4xl font-bold text-white mb-6">
               Get In <span className="text-purple-400">Touch</span>
             </h2>
+
             <p className="text-gray-400 mb-8">
               Feel free to reach out. I usually respond within 12 hours.
             </p>
@@ -91,10 +73,12 @@ const Contact = () => {
                 <Mail className="text-purple-400" />
                 <span className="text-white">{personalInfo.email}</span>
               </div>
+
               <div className="flex gap-4">
                 <Phone className="text-purple-400" />
                 <span className="text-white">{personalInfo.phone}</span>
               </div>
+
               <div className="flex gap-4">
                 <MapPin className="text-purple-400" />
                 <span className="text-white">{personalInfo.location}</span>
@@ -105,6 +89,7 @@ const Contact = () => {
               <a href={personalInfo.github} target="_blank" rel="noreferrer">
                 <Github className="text-gray-400 hover:text-purple-400" />
               </a>
+
               <a href={personalInfo.linkedin} target="_blank" rel="noreferrer">
                 <Linkedin className="text-gray-400 hover:text-purple-400" />
               </a>
