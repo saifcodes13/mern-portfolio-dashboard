@@ -15,7 +15,7 @@ const loginAdmin = async (req,res) => {
         return res.status(401).json({message: "Invalid credentials"})
     }
 
-    
+
     //compare hashed password
     const isMatch = await bcrypt.compare(password, adminUser.password)
     if(!isMatch){
@@ -23,9 +23,16 @@ const loginAdmin = async (req,res) => {
     }
 
      // Generate JWT and store in httpOnly cookie
-     generateToken(res, adminUser.id)
+    //  generateToken(res, adminUser.id)
+
+    const token = jwt.sign(
+    { id: adminUser.id },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
 
      res.json({
+        token,
         message:"Login successfull",
         email: adminUser.email
      })
