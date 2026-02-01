@@ -32,7 +32,7 @@ const AdminLogin = () => {
         },
         { withCredentials: true }
       );
-
+       console.log(import.meta.env.VITE_API_URL)
       // ✅ login success
       navigate("/admin");
     } catch (err) {
