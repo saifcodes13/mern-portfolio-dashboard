@@ -15,6 +15,7 @@ const loginAdmin = async (req,res) => {
         return res.status(401).json({message: "Invalid credentials"})
     }
 
+    
     //compare hashed password
     const isMatch = await bcrypt.compare(password, adminUser.password)
     if(!isMatch){
