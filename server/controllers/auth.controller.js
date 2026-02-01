@@ -1,6 +1,8 @@
 import bcrypt from "bcryptjs";
 import adminUser from "../data/user.data.js";
 import generateToken from "../utils/generate-token-utils.js";
+import jwt from "jsonwebtoken";
+
 
 /**
  * @desc    Authenticate admin and set JWT in httpOnly cookie
@@ -23,7 +25,7 @@ const loginAdmin = async (req,res) => {
     }
 
      // Generate JWT and store in httpOnly cookie
-    //  generateToken(res, adminUser.id)
+     generateToken(res, adminUser.id)
 
     const token = jwt.sign(
     { id: adminUser.id },
