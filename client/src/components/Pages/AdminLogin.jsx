@@ -11,8 +11,7 @@ const AdminLogin = () => {
     password: "",
   });
 
-  //Added this
-  localStorage.setItem("token", res.data.token);
+
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
