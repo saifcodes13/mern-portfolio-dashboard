@@ -11,8 +11,6 @@ const AdminLogin = () => {
     password: "",
   });
 
-
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -32,14 +30,10 @@ const AdminLogin = () => {
           email: formData.email,
           password: formData.password,
         },
+        {
+          withCredentials: true,
+        },
       );
-
-      /**
-       * Persist JWT token in browser storage after successful login.
-       * This token is later attached to API requests via  axios interceptor
-       * for accessing protected backend routes.
-       */
-      localStorage.setItem("token", res.data.token);
 
       navigate("/admin");
     } catch (err) {

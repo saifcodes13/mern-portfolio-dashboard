@@ -8,7 +8,11 @@ const AdminDashboard = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/logout`, { withCredentials: true });
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
       navigate("/admin/login");
     } catch (error) {
       console.error("Logout failed");

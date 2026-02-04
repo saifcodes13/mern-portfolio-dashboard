@@ -2,20 +2,35 @@ import React, { useEffect, useState } from "react";
 import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react";
 import { fetchPersonalInfo } from "../api/portfolioApi";
 
-const Hero = () => {
-  // const [personalInfo, setPersonalInfo] = useState(null);
+/**
+ * Initializes `personalInfo` state using cached data from localStorage.
+ *
+ * - Uses lazy initialization so this logic runs ONLY on the first render.
+ * - On browser refresh:
+ *   → React state resets
+ *   → Data is read from localStorage instead of calling the API again.
+ *
+ * - If cached data exists:
+ *   → It is parsed and used as the initial state.
+ *
+ * - If no cached data exists:
+ *   → State is initialized as `null`
+ *   → API will be called once and the result will be stored in localStorage.
+ *
+ * Benefits:
+ * - Prevents unnecessary API refetches on page refresh
+ * - Improves performance and load time
+ */
 
+const Hero = () => {
   const [personalInfo, setPersonalInfo] = useState(() => {
     const cached = localStorage.getItem("personalInfo");
     return cached ? JSON.parse(cached) : null;
-  });
+  }); // Uses cached data to prevent API refetch on browser refresh.
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        // const data = await fetchPersonalInfo();
-        // setPersonalInfo(data);
-
         const data = await fetchPersonalInfo();
         setPersonalInfo(data);
         localStorage.setItem("personalInfo", JSON.stringify(data));
@@ -27,16 +42,12 @@ const Hero = () => {
     loadData();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("API URL:", import.meta.env.VITE_API_URL);
-  // }, []);
-
   return (
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
     >
-      {/* ✅ Background (CLS safe) */}
+      {/*  Background (CLS safe) */}
       <div className="absolute inset-0 -z-10 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl animate-[pulse_6s_ease-in-out_infinite] opacity-70"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-800/10 rounded-full blur-3xl animate-[pulse_8s_ease-in-out_infinite] opacity-70"></div>

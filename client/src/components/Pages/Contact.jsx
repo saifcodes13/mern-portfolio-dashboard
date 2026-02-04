@@ -4,20 +4,24 @@ import { Mail, Phone, MapPin, Send, Github, Linkedin } from "lucide-react";
 import { fetchPersonalInfo, createContact } from "../../api/portfolioApi";
 
 const Contact = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [personalInfo, setPersonalInfo] = useState(() => {
+    const cached = localStorage.getItem("personalInfo");
+    return cached ? JSON.parse(cached) : null;
+  });
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [personalInfo, setPersonalInfo] = useState("");
-
   useEffect(() => {
     const loadData = async () => {
       try {
         const data = await fetchPersonalInfo();
         setPersonalInfo(data);
+        localStorage.setItem("personalInfo", JSON.stringify(data));
       } catch (error) {
         console.error("Failed to fetch personal info:", error);
       }

@@ -3,7 +3,10 @@ import { ExternalLink, Github } from "lucide-react";
 import { fetchProjects } from "../../api/portfolioApi";
 
 const Projects = () => {
-  const [projects, setProjects] = useState([]); // ✅ FIX
+  const [projects, setProjects] = useState(() => {
+    const cached = localStorage.getItem("projects")
+    return cached ? JSON.parse(cached): []
+  }); 
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
@@ -11,6 +14,7 @@ const Projects = () => {
       try {
         const data = await fetchProjects();
         setProjects(data);
+        localStorage.setItem("projects", JSON.stringify(data))
       } catch (error) {
         console.error("Failed to fetch projects:", error);
       }

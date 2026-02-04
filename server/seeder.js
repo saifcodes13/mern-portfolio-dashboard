@@ -17,10 +17,10 @@ connectDB();
 const importData = async () => {
   try {
     //Clear old data
-    await ProjectModel.deleteMany();
-    await SkillModel.deleteMany();
-    await ContactModel.deleteMany();
-    await UserModel.deleteMany()
+    // await ProjectModel.deleteMany();
+    // await SkillModel.deleteMany();
+    // await ContactModel.deleteMany();
+    // await UserModel.deleteMany()
     
     await UserModel.insertMany(userData)
     //Insert Projects
@@ -29,7 +29,7 @@ const importData = async () => {
 
 
     //Insert skills
-    //You want to insert ONE document(object) use .create() insertmany() expects array
+    //You want to insert ONE document(object) use .create(), insertmany() expects array
     await SkillModel.create(skills); // we have used create() bcoz it has only one object
 
     console.log("Data Imported".green.bold);

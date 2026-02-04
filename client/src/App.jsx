@@ -18,6 +18,7 @@ import AdminSkills from "./components/Admin/AdminSkills.jsx";
 import AdminEditProject from "./components/Admin/AdminEditProject.jsx";
 import AdminEditSkill from "./components/Admin/AdminEditSkill.jsx";
 import AdminCreateProject from "./components/Admin/AdminCreateProject.jsx";
+import ProtectedRoute from "./components/Admin/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
   // PUBLIC SITE
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
   // ADMIN PANEL
   {
     path: "/admin",
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute>
+        <AdminLayout/>
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,

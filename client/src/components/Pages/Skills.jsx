@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { fetchSkills } from "../../api/portfolioApi";
 
 const Skills = () => {
-  const[skills, setSkills] = useState()
+  const[skills, setSkills] = useState(() => {
+    const cached = localStorage.getItem("skills")
+    return cached ? JSON.parse(cached) : null
+  })
 
   useEffect(() => {
     const loadData = async () => {
       try{
         const data = await fetchSkills()
         setSkills(data)
+        localStorage.setItem("skills", JSON.stringify(data))
       } catch(error){
         console.error("Failed to fetch skills:", error)
       }

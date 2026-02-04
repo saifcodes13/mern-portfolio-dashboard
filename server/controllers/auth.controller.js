@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import adminUser from "../data/user.data.js";
 import generateToken from "../utils/generate-token-utils.js";
 import jwt from "jsonwebtoken";
+import UserModel from "../models/user.model.js";
 
 
 /**
@@ -13,6 +14,7 @@ import jwt from "jsonwebtoken";
 const loginAdmin = async (req,res) => {
     const {email, password} = req.body
     //Validate email
+  
     if(email !== adminUser.email){
         return res.status(401).json({message: "Invalid credentials"})
     }
@@ -40,6 +42,8 @@ const loginAdmin = async (req,res) => {
      })
 }
 
+
+
 /**
  * @desc    Logout admin and clear JWT cookie
  * @route   POST /api/auth/logout
@@ -47,12 +51,15 @@ const loginAdmin = async (req,res) => {
  */
  const logoutAdmin = (req, res) => {
   res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(0), // expire immediately
-  });
-
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/",
+  expires: new Date(0),
+});
   res.status(200).json({ message: "Logged out successfully" });
 };
+
 
 const getAdminProfile = (req, res) => {
     res.status(200).json({
