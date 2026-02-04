@@ -23,7 +23,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3005",
-      "https://mern-portfolio-dashboard.vercel.app",
+      "https://www.saifcodes.in",
     ],
     credentials: true,
   }),
