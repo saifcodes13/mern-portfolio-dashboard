@@ -3,13 +3,22 @@ import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react";
 import { fetchPersonalInfo } from "../api/portfolioApi";
 
 const Hero = () => {
-  const [personalInfo, setPersonalInfo] = useState(null);
+  // const [personalInfo, setPersonalInfo] = useState(null);
+
+  const [personalInfo, setPersonalInfo] = useState(() => {
+    const cached = localStorage.getItem("personalInfo");
+    return cached ? JSON.parse(cached) : null;
+  });
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        // const data = await fetchPersonalInfo();
+        // setPersonalInfo(data);
+
         const data = await fetchPersonalInfo();
         setPersonalInfo(data);
+        localStorage.setItem("personalInfo", JSON.stringify(data));
       } catch (error) {
         console.error("Failed to fetch personal info:", error);
       }
@@ -66,13 +75,13 @@ const Hero = () => {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </a>
 
-            <a
+            {/* <a
               href="/contact"
               className="inline-flex items-center gap-2 border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white px-8 py-6 text-lg font-medium rounded-md transition-all duration-300 hover:scale-105 group"
             >
               <Download className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
               Download Resume
-            </a>
+            </a> */}
           </div>
 
           {/* Social Links */}
