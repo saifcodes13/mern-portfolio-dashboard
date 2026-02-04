@@ -33,7 +33,7 @@ const AdminProjects = () => {
       }
     }
   };
-  console.log(projects);
+  // console.log(projects);
 
   if (error) {
     return <p>{error}</p>;

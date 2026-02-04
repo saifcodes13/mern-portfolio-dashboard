@@ -9,7 +9,7 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5002",
 });
 
-console.log(import.meta.env.VITE_API_URL)
+// console.log(import.meta.env.VITE_API_URL)
 //  PROJECTS 
 
 export const fetchProjects = async () => {

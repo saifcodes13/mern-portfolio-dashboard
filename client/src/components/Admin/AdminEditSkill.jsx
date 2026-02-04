@@ -82,7 +82,7 @@ const AdminEditSkill = () => {
         .map((tool) => tool.trim())
         .filter(Boolean);
 
-      console.log(frontend);
+      // console.log(frontend);
 
       await updateSkill({
         frontend,
