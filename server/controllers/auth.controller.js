@@ -27,12 +27,11 @@ const loginAdmin = async (req, res) => {
   // Generate JWT and store in httpOnly cookie
   generateToken(res, adminUser.id);
 
-  const token = jwt.sign({ id: adminUser.id }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
-  });
+  // const token = jwt.sign({ id: adminUser.id }, process.env.JWT_SECRET, {
+  //   expiresIn: "7d",
+  // });
 
   res.json({
-    token,
     message: "Login successfull",
     email: adminUser.email,
   });

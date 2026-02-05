@@ -17,10 +17,10 @@ connectDB();
 const importData = async () => {
   try {
     //Clear old data
-    // await ProjectModel.deleteMany();
-    // await SkillModel.deleteMany();
-    // await ContactModel.deleteMany();
-    // await UserModel.deleteMany()
+    await ProjectModel.deleteMany();
+    await SkillModel.deleteMany();
+    await ContactModel.deleteMany();
+    await UserModel.deleteMany()
     
     await UserModel.insertMany(userData)
     //Insert Projects
