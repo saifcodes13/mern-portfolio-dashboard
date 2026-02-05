@@ -5,8 +5,8 @@ export const projects = [
     description: "A fully functional e-commerce platform with user authentication, shopping cart, payment integration, and admin dashboard. Built with Redux Toolkit for state management and features real-time inventory updates.",
     techStack: ["React", "Node.js", "Express", "MongoDB", "Redux Toolkit", "Paypal"],
     image: "https://images.unsplash.com/photo-1557821552-17105176677c?w=800&h=600&fit=crop",
-    liveLink: "https://ecommerce-demo.example.com",
-    githubLink: "https://github.com/saiftandel/ecommerce",
+    liveLink: "https://ecommerce-store-ten-chi-86.vercel.app",
+    githubLink: "https://github.com/saifcodes13/ecommerce-store.git",
     featured: true
   },
   {
@@ -26,7 +26,7 @@ export const projects = [
     techStack: ["React", "Node.js", "Express", "MongoDB", "Google Maps API", "Socket.io"],
     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
     liveLink: "#",
-    githubLink: "https://github.com/saiftandel/medfinder",
+    githubLink: "https://github.com/saifcodes13",
     featured: true
   }
 ];

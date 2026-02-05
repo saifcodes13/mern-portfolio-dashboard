@@ -73,7 +73,7 @@ const Hero = () => {
 
           {/* Tagline */}
           <p className="text-xl sm:text-2xl lg:text-3xl text-gray-400 max-w-4xl mx-auto leading-relaxed font-light min-h-[3rem]">
-            {personalInfo?.tagline || ""}
+            Saif Tandel
           </p>
 
           {/* CTA Buttons */}
