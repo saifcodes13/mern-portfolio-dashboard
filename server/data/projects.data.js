@@ -43,7 +43,7 @@ export const projects = [
     image:
       "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop",
     liveLink: "#",
-    githubLink: "https://github.com/saifcodes13",
+    githubLink: "#",
     featured: true,
   },
 ];

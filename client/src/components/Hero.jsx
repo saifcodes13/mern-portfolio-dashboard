@@ -67,13 +67,13 @@ const Hero = () => {
           <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight">
             <span className="block text-white mb-2">Hi, I'm</span>
             <span className="block bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
-              {personalInfo?.name || "Loading..."}
+              Saif Tandel
             </span>
           </h1>
 
           {/* Tagline */}
           <p className="text-xl sm:text-2xl lg:text-3xl text-gray-400 max-w-4xl mx-auto leading-relaxed font-light min-h-[3rem]">
-            Saif Tandel
+           Full-stack developer focused on performance and clean code.
           </p>
 
           {/* CTA Buttons */}
