@@ -23,7 +23,9 @@ app.use(
   cors({
     origin: [
       "http://localhost:3006",
+      "http://localhost:3005",
       "https://www.saifcodes.in",
+       "https://saifcodes.in"
     ],
     credentials: true,
   }),
