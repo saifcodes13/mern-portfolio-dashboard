@@ -30,6 +30,7 @@ const updateProject = async (req, res) => {
     project.liveLink = req.body.liveLink || project.liveLink;
     project.githubLink = req.body.githubLink || project.githubLink;
     project.techStack = req.body.techStack || project.techStack;
+    project.image = req.body.image || project.image;
 
     const updatedProject = await project.save();
     res.json(updatedProject);

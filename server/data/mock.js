@@ -68,6 +68,18 @@ export const projects = [
     githubLink: "https://github.com/saiftandel/medfinder",
     featured: true,
   },
+  {
+    id: "4",
+    title: "Amit RO (Aquaguard Services)",
+    description:
+      "A professional water purifier service website specializing in repair, maintenance, installation, and filter replacements. Built with React and Tailwind CSS, featuring a responsive layout and service detail cards.",
+    techStack: ["React", "Tailwind CSS", "Vite"],
+    image:
+      "https://images.unsplash.com/photo-1589986005992-68bc7aa343c2?w=800&h=600&fit=crop",
+    liveLink: "https://amitro.co.in/",
+    githubLink: "private",
+    featured: false,
+  },
 ];
 
 export const skills = {
