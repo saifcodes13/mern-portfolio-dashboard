@@ -4,8 +4,12 @@ import MainLayout from "./components/Layout.jsx";
 
 // Public pages
 import Home from "./components/Pages/Home.jsx";
+import Services from "./components/Services.jsx";
+import Experience from "./components/Experience.jsx";
 import Projects from "./components/Pages/Projects.jsx";
 import Skills from "./components/Pages/Skills.jsx";
+import Blogs from "./components/Pages/Blogs.jsx";
+import BlogPost from "./components/Pages/BlogPost.jsx";
 import Contact from "./components/Pages/Contact.jsx";
 import ErrorScreen from "./components/Pages/Error.jsx";
 
@@ -18,6 +22,9 @@ import AdminSkills from "./components/Admin/AdminSkills.jsx";
 import AdminEditProject from "./components/Admin/AdminEditProject.jsx";
 import AdminEditSkill from "./components/Admin/AdminEditSkill.jsx";
 import AdminCreateProject from "./components/Admin/AdminCreateProject.jsx";
+import AdminBlogs from "./components/Admin/AdminBlogs.jsx";
+import AdminCreateBlog from "./components/Admin/AdminCreateBlog.jsx";
+import AdminEditBlog from "./components/Admin/AdminEditBlog.jsx";
 import ProtectedRoute from "./components/Admin/ProtectedRoute.jsx";
 
 const router = createBrowserRouter([
@@ -28,13 +35,17 @@ const router = createBrowserRouter([
     errorElement: <ErrorScreen />,
     children: [
       { index: true, element: <Home /> },
+      { path: "services", element: <Services /> },
       { path: "projects", element: <Projects /> },
+      { path: "blogs", element: <Blogs /> },
+      { path: "blogs/:id", element: <BlogPost /> },
+      { path: "experience", element: <Experience /> },
       { path: "skills", element: <Skills /> },
       { path: "contact", element: <Contact /> },
     ],
   },
 
-  //  ADMIN LOGIN (NO LAYOUT)
+  // ADMIN LOGIN (NO LAYOUT)
   {
     path: "/admin/login",
     element: <AdminLogin />,
@@ -45,7 +56,7 @@ const router = createBrowserRouter([
     path: "/admin",
     element: (
       <ProtectedRoute>
-        <AdminLayout/>
+        <AdminLayout />
       </ProtectedRoute>
     ),
     children: [
@@ -62,22 +73,32 @@ const router = createBrowserRouter([
         element: <AdminSkills />,
       },
       {
+        path: "blogs",
+        element: <AdminBlogs />,
+      },
+      {
+        path: "blogs/create",
+        element: <AdminCreateBlog />,
+      },
+      {
+        path: "blogs/:id/edit",
+        element: <AdminEditBlog />,
+      },
+      {
         path: "projects/:id/edit",
         element: <AdminEditProject />,
       },
       {
-        path:"skills/edit",
-        element: <AdminEditSkill/>
-        
+        path: "skills/edit",
+        element: <AdminEditSkill />,
       },
       {
-        path:"projects/create",
-        element:<AdminCreateProject/>
-      }
+        path: "projects/create",
+        element: <AdminCreateProject />,
+      },
     ],
   },
 ]);
-
 
 function App() {
   return <RouterProvider router={router} />;

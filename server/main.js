@@ -8,6 +8,7 @@ import authRoutes from "./routes/auth.routes.js";
 import projectRoutes from "./routes/project.route.js";
 import skillRoutes from "./routes/skill.route.js";
 import contactRoutes from "./routes/contact.route.js";
+import blogRoutes from "./routes/blog.route.js";
 
 import personalInfo from "./data/personalInfo.data.js";
 import { skills } from "./data/skills.data.js";
@@ -41,7 +42,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
-
+app.use("/api/blogs", blogRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/contact", contactRoutes);
 

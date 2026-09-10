@@ -1,5 +1,5 @@
 import React from "react";
-import { FolderKanban, Wrench, LogOut } from "lucide-react";
+import { FolderKanban, Wrench, BookOpen, LogOut } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -60,10 +60,27 @@ const AdminDashboard = () => {
             Update your skills and expertise levels
           </p>
           <button
-            className="w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-md transition"
+            className="w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-md transition cursor-pointer"
             onClick={() => navigate("/admin/skills")}
           >
             Manage Skills
+          </button>
+        </div>
+
+        {/* Blogs & Articles */}
+        <div className="bg-[#111111] border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/40 transition">
+          <div className="flex items-center gap-4 mb-4">
+            <BookOpen className="text-purple-400" size={28} />
+            <h3 className="text-xl font-semibold">Blogs & Articles</h3>
+          </div>
+          <p className="text-gray-400 text-sm mb-6">
+            Write, edit, and publish your own technical blogs
+          </p>
+          <button
+            className="w-full bg-purple-600 hover:bg-purple-700 py-2 rounded-md transition cursor-pointer"
+            onClick={() => navigate("/admin/blogs")}
+          >
+            Manage Blogs
           </button>
         </div>
 

@@ -4,12 +4,14 @@ import colors from "colors";
 import connectDB from "./config/db.config.js";
 import { projects } from "./data/projects.data.js";
 import { skills } from "./data/skills.data.js";
-import userData from  "./data/user.data.js"
+import { blogs } from "./data/blogs.data.js";
+import userData from "./data/user.data.js";
 import contactData from "./data/contact.data.js";
 import ProjectModel from "./models/project.model.js";
 import SkillModel from "./models/skill.model.js";
 import ContactModel from "./models/contact.model.js";
 import UserModel from "./models/user.model.js";
+import BlogModel from "./models/blog.model.js";
 
 dotenv.config();
 connectDB();
@@ -20,19 +22,23 @@ const importData = async () => {
     await ProjectModel.deleteMany();
     await SkillModel.deleteMany();
     await ContactModel.deleteMany();
-    await UserModel.deleteMany()
-    
-    await UserModel.insertMany(userData)
+    await UserModel.deleteMany();
+    await BlogModel.deleteMany();
+
+    await UserModel.insertMany(userData);
     //Insert Projects
     await ProjectModel.insertMany(projects);
     await ContactModel.insertMany(contactData);
-
+    
+    //Insert Blogs
+    const formattedBlogs = blogs.map(({ id, ...rest }) => rest);
+    await BlogModel.insertMany(formattedBlogs);
 
     //Insert skills
     //You want to insert ONE document(object) use .create(), insertmany() expects array
     await SkillModel.create(skills); // we have used create() bcoz it has only one object
 
-    console.log("Data Imported".green.bold);
+    console.log("Data Imported (including Blogs Collection)".green.bold);
     process.exit();
   } catch (error) {
     console.error(`${error.message}`.red.underline);
@@ -44,6 +50,7 @@ const destroyData = async () => {
   try {
     await ProjectModel.deleteMany();
     await SkillModel.deleteMany();
+    await BlogModel.deleteMany();
     console.log("Data destroyed".red.bold);
     process.exit();
   } catch (error) {

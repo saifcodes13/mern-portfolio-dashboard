@@ -1,34 +1,34 @@
 export const skills = {
   frontend: [
-    { name: "React", level: 90 },
+    { name: "React.js", level: 92 },
     { name: "JavaScript (ES6+)", level: 95 },
     { name: "HTML5 & CSS3", level: 95 },
-    { name: "Tailwind CSS", level: 85 },
-    { name: "Redux Toolkit", level: 80 },
-    { name: "Responsive Design", level: 90 }
+    { name: "Tailwind CSS", level: 90 },
+    { name: "Redux Toolkit", level: 85 },
+    { name: "React Router & Axios", level: 90 },
+    { name: "Responsive Design", level: 95 }
   ],
   backend: [
-    { name: "Node.js", level: 85 },
-    { name: "Express.js", level: 85 },
-    { name: "MongoDB", level: 80 },
-    { name: "REST APIs", level: 90 },
-    { name: "JWT Authentication", level: 85 },
-    { name: "Database Design", level: 80 }
+    { name: "Node.js", level: 88 },
+    { name: "Express.js", level: 88 },
+    { name: "REST APIs", level: 92 },
+    { name: "JWT Authentication", level: 90 },
+    { name: "MongoDB", level: 85 },
+    { name: "MySQL", level: 82 }
   ],
   tools: [
-    "React.js",
-    "MongoDB",
-    "JavaScript",
-    "Express.js",
+    "AWS S3",
+    "Cloudflare Tunnel",
+    "Nginx Reverse Proxy",
+    "GitHub Actions CI/CD",
+    "PM2",
+    "Docker",
+    "Ubuntu Linux",
     "Git & GitHub",
-    "VS Code",
     "Postman",
-    "Node.js",
-    "REST APIs",
-    "JSON Web Token(JWT)",
-    "HTML5",
-    "CSS3",
-    "Tailwind CSS",
-   
+    "Figma",
+    "VS Code",
+    "Vercel",
+    "EmailJS"
   ]
 };

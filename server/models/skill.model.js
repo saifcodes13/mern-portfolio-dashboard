@@ -16,12 +16,16 @@ const skillItemSchema = new mongoose.Schema(
       min: 0,
       max: 100,
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
   },
   { _id: false }
 );
 
 /**
- * Maiin Skills Schema
+ * Main Skills Schema
  * Only ONE document is needed for entire portfolio
  */
 const skillsSchema = new mongoose.Schema(
@@ -35,12 +39,13 @@ const skillsSchema = new mongoose.Schema(
       default: [],
     },
     tools: {
-      type: [String],
+      type: [mongoose.Schema.Types.Mixed],
       default: [],
     },
   },
   {
     timestamps: true,
+    strict: false,
   }
 );
 

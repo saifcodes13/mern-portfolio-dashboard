@@ -1,95 +1,147 @@
 import React from "react";
-import { User, Target, Code } from "lucide-react";
-
+import { Server, Layout, ShieldCheck, Cloud, Cpu, Code2, Sparkles, CheckCircle2 } from "lucide-react";
+import { aboutData } from "../data/portfolioData";
 
 const About = () => {
-  
   return (
-    <section id="about" className="py-20 lg:py-32 bg-[#0a0a0a] relative">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl"></div>
-      </div>
+    <section id="about" className="py-24 lg:py-32 bg-[#0c0c14] relative overflow-hidden">
+      {/* Background ambient lighting */}
+      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
-            About <span className="text-purple-400">Me</span>
+        
+        {/* Section Header */}
+        <div className="text-center mb-16 lg:mb-20">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Professional Profile</span>
+          </div>
+          <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
+            About <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">Me</span>
           </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-purple-600 to-purple-400 mx-auto"></div>
+          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mt-4 rounded-full" />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left: Text Content */}
-          <div className="space-y-6">
-            <p className="text-lg text-gray-300 leading-relaxed">
-              I'm a passionate Full Stack Developer with expertise in building modern web applications that solve real-world problems. With a strong foundation in both frontend and backend technologies, I create seamless, user-centric digital experiences.
-            </p>
-            <p className="text-lg text-gray-300 leading-relaxed">
-              I specialize in the MERN stack and focus on writing clean, maintainable code. Currently working on MedFinder, a platform helping local communities find medicines in nearby medical stores. I'm always excited to take on new challenges and collaborate on innovative projects.
-            </p>
+        {/* 2-Column Content Layout */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+          
+          {/* Left: Bio & Stat Counters (7 cols) */}
+          <div className="lg:col-span-7 space-y-8">
+            <div className="space-y-4 text-gray-300 text-base sm:text-lg leading-relaxed">
+              <p>
+                I am a passionate <strong className="text-white font-semibold">React.js and MERN Stack Developer</strong> with hands-on enterprise experience building scalable web applications and business solutions using <span className="text-purple-300">React.js, Node.js, Express.js, MongoDB, and MySQL</span>.
+              </p>
+              <p>
+                Proficient in architecting responsive user interfaces, designing secure RESTful APIs with JWT authentication, and integrating cloud storage solutions like AWS S3. I have delivered production CRM modules, automated static deployment architectures (like CloudNest), and real-time healthcare locators (MedFinder).
+              </p>
+              <p>
+                With a Bachelor of Engineering from the University of Mumbai, I combine analytical engineering rigour with modern frontend and backend development practices. Passionate about building scalable architectures, writing clean code, and delivering reliable software solutions.
+              </p>
+            </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8">
-              <div className="text-center p-4 bg-[#111111] rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
-                <div className="text-3xl font-bold text-purple-400 mb-1">3+</div>
-                <div className="text-sm text-gray-400">Projects</div>
-              </div>
-              <div className="text-center p-4 bg-[#111111] rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
-                <div className="text-3xl font-bold text-purple-400 mb-1">10+</div>
-                <div className="text-sm text-gray-400">Technologies</div>
-              </div>
-              <div className="text-center p-4 bg-[#111111] rounded-lg border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300">
-                <div className="text-3xl font-bold text-purple-400 mb-1">100%</div>
-                <div className="text-sm text-gray-400">Committed</div>
+            {/* Quick Stats Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4">
+              {aboutData.stats.map((stat, idx) => (
+                <div
+                  key={idx}
+                  className="glass-panel p-4 rounded-xl text-center border border-white/10 hover:border-purple-500/40 transition-all duration-300"
+                >
+                  <div className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-purple-400 to-indigo-300 bg-clip-text text-transparent mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-gray-400 font-medium">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Key Engineering Principles */}
+            <div className="p-6 rounded-2xl glass-panel border border-white/10 space-y-3">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-purple-400 flex items-center gap-2">
+                <Code2 className="w-4 h-4" />
+                Core Engineering Strengths
+              </h4>
+              <div className="grid sm:grid-cols-2 gap-3 text-sm text-gray-300">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  <span>Modular React & Redux Toolkit Architecture</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  <span>Secure JWT Authentication & Role Gates</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  <span>AWS S3 & Cloudflare Tunnel Integration</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                  <span>High-Performance MySQL & MongoDB Queries</span>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right: Feature Cards */}
-          <div className="space-y-6">
-            <div className="p-6 bg-[#111111] rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:transform hover:scale-105 group">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-purple-600/10 rounded-lg group-hover:bg-purple-600/20 transition-colors duration-300">
-                  <User className="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">Who I Am</h3>
-                  <p className="text-gray-400">
-                    A dedicated developer passionate about creating efficient, scalable solutions that make a difference.
-                  </p>
-                </div>
+          {/* Right: Modern Feature Cards (5 cols) */}
+          <div className="lg:col-span-5 space-y-5">
+            <div className="glass-panel glass-panel-hover p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 flex-shrink-0">
+                <Layout className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1.5">
+                  Frontend Engineering
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Translating complex Figma layouts into responsive, accessible UI components with React.js, Tailwind CSS, and custom hooks.
+                </p>
               </div>
             </div>
 
-            <div className="p-6 bg-[#111111] rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:transform hover:scale-105 group">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-purple-600/10 rounded-lg group-hover:bg-purple-600/20 transition-colors duration-300">
-                  <Code className="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">What I Do</h3>
-                  <p className="text-gray-400">
-                    Build full-stack web applications using modern technologies like React, Node.js, and MongoDB.
-                  </p>
-                </div>
+            <div className="glass-panel glass-panel-hover p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 flex-shrink-0">
+                <Server className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1.5">
+                  Backend & Database Systems
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Building scalable Node.js and Express.js REST APIs with robust validation, relational MySQL and NoSQL MongoDB modeling.
+                </p>
               </div>
             </div>
 
-            <div className="p-6 bg-[#111111] rounded-xl border border-purple-500/20 hover:border-purple-500/40 transition-all duration-300 hover:transform hover:scale-105 group">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-purple-600/10 rounded-lg group-hover:bg-purple-600/20 transition-colors duration-300">
-                  <Target className="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">My Goal</h3>
-                  <p className="text-gray-400">
-                    Help businesses and individuals bring their ideas to life through clean, maintainable code.
-                  </p>
-                </div>
+            <div className="glass-panel glass-panel-hover p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-violet-500/10 text-violet-400 border border-violet-500/20 flex-shrink-0">
+                <Cloud className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1.5">
+                  Cloud, Hosting & DevOps
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Self-hosting infrastructures with Nginx reverse proxy, Cloudflare Tunnels, PM2 process management, and GitHub Actions CI/CD.
+                </p>
+              </div>
+            </div>
+
+            <div className="glass-panel glass-panel-hover p-6 rounded-2xl border border-white/10 flex items-start gap-4">
+              <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex-shrink-0">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white mb-1.5">
+                  Production Reliability
+                </h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Ensuring zero-downtime deployments, responsive cross-device testing, and clean, modular code architectures.
+                </p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>

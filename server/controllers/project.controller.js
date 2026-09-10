@@ -25,6 +25,8 @@ const updateProject = async (req, res) => {
     project.title = req.body.title || project.title;
     project.featured =
       req.body.featured !== undefined ? req.body.featured : project.featured;
+    project.active =
+      req.body.active !== undefined ? req.body.active : (project.active !== undefined ? project.active : true);
 
     project.description = req.body.description || project.description;
     project.liveLink = req.body.liveLink || project.liveLink;
@@ -48,6 +50,7 @@ const createProject = async (req, res) => {
       liveLink,
       githubLink,
       featured,
+      active,
     } = req.body;
     const project = new ProjectModel({
       title,
@@ -57,6 +60,7 @@ const createProject = async (req, res) => {
       liveLink,
       githubLink,
       featured,
+      active: active !== undefined ? active : true,
     });
 
     const createdProject = await project.save();

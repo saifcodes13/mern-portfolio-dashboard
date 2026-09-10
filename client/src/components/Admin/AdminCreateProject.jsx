@@ -12,6 +12,7 @@ const AdminCreateProject = () => {
   const [githubLink, setGithubLink] = useState("");
   const [featured, setFeatured] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [active, setActive] = useState(true);
   const [error, setError] = useState(null);
 
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const AdminCreateProject = () => {
         liveLink,
         githubLink,
         featured,
+        active,
       });
 
       navigate("/admin/projects");
@@ -112,15 +114,27 @@ const AdminCreateProject = () => {
             className="w-full bg-[#0a0a0a] border border-purple-500/20 rounded-md px-4 py-3 focus:border-purple-500 outline-none"
           />
 
-          <label className="flex items-center gap-3 text-sm text-gray-300">
-            <input
-              type="checkbox"
-              checked={featured} 
-              onChange={(e) => setFeatured(e.target.checked)}
-              className="w-4 h-4 accent-purple-600"
-            />
-            Featured Project
-          </label>
+          <div className="flex flex-wrap items-center gap-6 pt-1">
+            <label className="flex items-center gap-2.5 text-sm text-gray-300 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={active}
+                onChange={(e) => setActive(e.target.checked)}
+                className="w-4 h-4 accent-purple-600 cursor-pointer"
+              />
+              Active / Visible in Portfolio
+            </label>
+
+            <label className="flex items-center gap-2.5 text-sm text-gray-300 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={featured} 
+                onChange={(e) => setFeatured(e.target.checked)}
+                className="w-4 h-4 accent-purple-600 cursor-pointer"
+              />
+              Featured Project
+            </label>
+          </div>
 
           <button
             type="submit"

@@ -13,6 +13,7 @@ const AdminEditProject = () => {
   const [liveLink, setLiveLink] = useState("");
   const [githubLink, setGithubLink] = useState("");
   const [techStack, setTechStack] = useState("");
+  const [active, setActive] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -24,9 +25,10 @@ const AdminEditProject = () => {
         setTitle(data.title);
         setDescription(data.description);
         setFeatured(data.featured);
+        setActive(data.active !== undefined ? data.active : true);
         setLiveLink(data.liveLink);
         setGithubLink(data.githubLink);
-        setTechStack(data.techStack);
+        setTechStack(Array.isArray(data.techStack) ? data.techStack.join(", ") : data.techStack);
         setLoading(false);
       } catch (err) {
         setError("Failed to load project");
@@ -46,7 +48,10 @@ const AdminEditProject = () => {
         title,
         description,
         featured,
+        active,
         liveLink,
+        githubLink,
+        techStack: typeof techStack === "string" ? techStack.split(",").map((s) => s.trim()) : techStack,
       });
 
       navigate("/admin/projects");
@@ -127,15 +132,33 @@ const AdminEditProject = () => {
           />
         </div>
 
-        {/* Featured */}
-        <div className="flex items-center gap-3">
-          <input
-            type="checkbox"
-            checked={featured}
-            onChange={(e) => setFeatured(e.target.checked)}
-            className="accent-purple-600"
-          />
-          <label className="text-gray-300">Featured Project</label>
+        {/* Active & Featured Toggles */}
+        <div className="flex flex-wrap items-center gap-6 pt-2">
+          <div className="flex items-center gap-2.5">
+            <input
+              type="checkbox"
+              id="project-active"
+              checked={active}
+              onChange={(e) => setActive(e.target.checked)}
+              className="accent-purple-600 w-4 h-4 cursor-pointer"
+            />
+            <label htmlFor="project-active" className="text-gray-300 text-sm cursor-pointer">
+              Active / Visible in Portfolio
+            </label>
+          </div>
+
+          <div className="flex items-center gap-2.5">
+            <input
+              type="checkbox"
+              id="project-featured"
+              checked={featured}
+              onChange={(e) => setFeatured(e.target.checked)}
+              className="accent-purple-600 w-4 h-4 cursor-pointer"
+            />
+            <label htmlFor="project-featured" className="text-gray-300 text-sm cursor-pointer">
+              Featured Project (Highlighted)
+            </label>
+          </div>
         </div>
 
         {/* Buttons */}

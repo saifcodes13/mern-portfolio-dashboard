@@ -1,0 +1,668 @@
+export const personalInfo = {
+  name: "Saif Tandel",
+  role: "React.js & MERN Stack Developer",
+  subRole: "Full Stack Engineer | Cloud & DevOps Enthusiast",
+  tagline:
+    "React.js and MERN Stack Developer with hands-on experience building scalable web applications and business solutions using React.js, Node.js, Express.js, MongoDB, and MySQL.",
+  availability: "Available for New Opportunities",
+  email: "saifcodes13@gmail.com",
+  phone: "+91 9819803103",
+  phoneDisplay: "+91 9819803103",
+  whatsapp: "https://wa.me/919819803103?text=Hi%20Saif,%20I%20came%20across%20your%20portfolio%20and%20would%20like%20to%20connect!",
+  location: "Mumbai, India",
+  website: "https://www.saifcodes.in",
+  github: "https://github.com/saifcodes13",
+  linkedin: "https://linkedin.com/in/saif-tandel",
+  resumeUrl: "#contact", // or PDF path
+};
+
+export const aboutData = {
+  summary:
+    "React.js and MERN Stack Developer with hands-on experience building scalable web applications and business solutions using React.js, Node.js, Express.js, MongoDB, and MySQL. Proficient in developing responsive user interfaces, integrating RESTful APIs, implementing secure authentication, and optimizing application performance. Passionate about clean code, modern development practices, and delivering reliable, user-focused software solutions.",
+  stats: [
+    { label: "CRM Modules Built", value: "5+" },
+    { label: "Reusable Components", value: "20+" },
+    { label: "REST Endpoints Integrated", value: "15+" },
+    { label: "Commitment to Clean Code", value: "100%" },
+  ],
+  highlights: [
+    {
+      title: "Full-Stack Development",
+      description:
+        "Building end-to-end architectures from scalable MongoDB & MySQL schemas to responsive, high-performance React frontends.",
+    },
+    {
+      title: "Cloud, CI/CD & DevOps",
+      description:
+        "Hands-on experience deploying with AWS S3, Cloudflare Tunnel, Nginx reverse proxy, PM2, and GitHub Actions self-hosted runners.",
+    },
+    {
+      title: "Secure Authentication & APIs",
+      description:
+        "Designing robust RESTful APIs, JWT-based role authentication, secure sales portal endpoints, and optimized database queries.",
+    },
+    {
+      title: "Performance & UI/UX Excellence",
+      description:
+        "Translating Figma designs into pixel-perfect responsive interfaces with Tailwind CSS, Redux Toolkit, and rapid load times.",
+    },
+  ],
+};
+
+export const experiences = [
+  {
+    id: "exp-1",
+    role: "Software Developer",
+    company: "BookEventz",
+    period: "Mar 2026 - Sep 2026",
+    location: "Mumbai, India",
+    type: "Full-time",
+    description:
+      "Core software developer responsible for enterprise CRM modernization, sales portal API architecture, and cloud asset storage.",
+    achievements: [
+      "Developed and maintained 5+ CRM modules using React.js and Node.js.",
+      "Built 20+ reusable React components, improving development efficiency and code consistency across teams.",
+      "Integrated 15+ RESTful API endpoints for seamless, reliable data exchange.",
+      "Optimized MySQL queries and database operations, reducing query latency and boosting application performance.",
+      "Integrated AWS S3 for secure file and media management; architected secure Sales Portal APIs with JWT authentication.",
+    ],
+    techStack: ["React.js", "Node.js", "Express.js", "MySQL", "AWS S3", "Git"],
+    badge: "Recent Role",
+  },
+  {
+    id: "exp-2",
+    role: "Full Stack Developer",
+    company: "SKDM",
+    period: "Jun 2025 - Feb 2026",
+    location: "Mumbai, India",
+    type: "Full-time",
+    description:
+      "Engineered responsive web applications and collaborated closely with UI/UX designers to translate Figma prototypes into pixel-perfect code.",
+    achievements: [
+      "Developed responsive web applications using React.js, ensuring a seamless user experience across mobile, tablet, and desktop devices.",
+      "Built reusable and modular UI components to elevate code maintainability and cross-team development velocity.",
+      "Integrated RESTful APIs to enable dynamic content delivery and efficient frontend-backend communication.",
+      "Collaborated with UI/UX designers to translate Figma design systems into responsive, pixel-perfect user interfaces.",
+      "Debugged, tested, and optimized applications to enhance frontend performance and resolve cross-browser issues.",
+    ],
+    techStack: [
+      "React.js",
+      "JavaScript (ES6+)",
+      "HTML5",
+      "CSS3",
+      "Tailwind CSS",
+      "REST APIs",
+      "Git",
+    ],
+  },
+  {
+    id: "exp-3",
+    role: "MERN Stack Developer Intern",
+    company: "THEEARLYAGI",
+    period: "Aug 2024 - Jun 2025",
+    location: "Remote / Hybrid",
+    type: "Internship",
+    description:
+      "Built scalable web applications and AI dashboard interfaces using the modern MERN stack.",
+    achievements: [
+      "Developed full-stack web applications using MongoDB, Express.js, React.js, and Node.js.",
+      "Created reusable React components for AI-powered dashboards and internal business applications.",
+      "Built RESTful APIs using Node.js and Express.js with robust error handling.",
+      "Designed and managed MongoDB databases for efficient data modeling, indexing, and rapid retrieval.",
+      "Implemented JWT-based authentication and role-based authorization for secure user access.",
+      "Assisted in deploying and maintaining production applications following modern industry best practices.",
+    ],
+    techStack: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "JWT",
+      "REST APIs",
+      "Git",
+    ],
+  },
+  {
+    id: "exp-4",
+    role: "Freelance Full Stack Developer",
+    company: "Independent Solutions",
+    period: "Ongoing",
+    location: "Remote",
+    type: "Freelance",
+    description:
+      "Delivering high-conversion web applications, custom business portals, and SEO-optimized marketing sites for diverse clients.",
+    achievements: [
+      "Developed responsive marketing and business websites using React.js for multiple clients to elevate brand presence and generate leads.",
+      "Integrated contact forms, transactional email services (EmailJS), and third-party APIs to streamline customer inquiries.",
+      "Improved page load speed, accessibility, and mobile responsiveness, directly increasing user retention and conversion rates.",
+      "Engineered custom landing pages and modular UI component libraries for rapid client deployments.",
+    ],
+    techStack: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "JWT",
+      "REST APIs",
+      "Git",
+    ],
+  },
+];
+
+export const educationData = [
+  {
+    degree: "Full Stack Web Development (MERN Stack)",
+    institution: "RST Forum",
+    period: "Professional Certification",
+    details:
+      "Comprehensive hands-on training in React.js, Node.js, Express.js, MongoDB, RESTful API architecture, state management, and modern development workflows.",
+    skillsLearned: ["React.js", "Node.js", "Express.js", "MongoDB", "Redux", "REST APIs"],
+  },
+  {
+    degree: "Bachelor of Engineering (Mechanical Engineering)",
+    institution: "University of Mumbai",
+    period: "2020 - 2024",
+    details:
+      "Four-year engineering degree providing rigorous analytical foundation, problem-solving methodologies, algorithm design, and system optimization principles.",
+    skillsLearned: ["Analytical Problem Solving", "Engineering Mathematics", "System Architecture", "Project Management"],
+  },
+];
+
+export const projects = [
+  {
+    id: "cloudnest",
+    title: "CloudNest - Self-Hosted Cloud Platform",
+    category: "devops",
+    featured: true,
+    tagline: "Netlify/Vercel-inspired static site deployment platform with custom subdomains",
+    description:
+      "A self-hosted hosting platform inspired by Netlify/Vercel that enables users to upload and deploy static websites with automated deployment, custom subdomains, and live dashboard management.",
+    highlights: [
+      "ZIP-based website deployment with automatic archive extraction and instantaneous hosting",
+      "Nginx reverse proxy for dynamic subdomain routing and SSL configuration",
+      "Automated CI/CD using GitHub Actions and a self-hosted runner",
+      "Secure public access tunneling configured via Cloudflare Tunnel",
+      "JWT authentication with an interactive deployment management dashboard",
+    ],
+    techStack: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Nginx",
+      "PM2",
+      "GitHub Actions",
+      "Cloudflare Tunnel",
+      "Ubuntu Linux",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&h=600&fit=crop",
+    liveLink: "https://github.com/saifcodes13",
+    githubLink: "https://github.com/saifcodes13",
+  },
+  {
+    id: "medfinder",
+    title: "Medicine Availability Finder (MedFinder)",
+    category: "fullstack",
+    featured: true,
+    tagline: "Real-time community platform to locate medicines in nearby pharmacies",
+    description:
+      "A responsive web application that helps patients and local communities quickly locate nearby pharmacies and check medicine availability in real-time through an intuitive, user-friendly interface.",
+    highlights: [
+      "High-speed medicine search functionality with fuzzy query matching",
+      "Real-time pharmacy inventory status and store locator",
+      "Responsive, mobile-first design tailored for quick community access",
+      "RESTful API backend for pharmacy catalog updates and data caching",
+    ],
+    techStack: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Tailwind CSS",
+      "REST APIs",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&h=600&fit=crop",
+    liveLink: "https://github.com/saifcodes13",
+    githubLink: "https://github.com/saifcodes13",
+  },
+  {
+    id: "ecommerce",
+    title: "Full-Featured E-Commerce Store",
+    category: "fullstack",
+    featured: true,
+    tagline: "Modern online store with cart, PayPal integration, and admin portal",
+    description:
+      "A fully functional MERN e-commerce platform with secure user authentication, product catalog filtering, cart state management with Redux Toolkit, PayPal checkout, and an administrative inventory dashboard.",
+    highlights: [
+      "Global state management with Redux Toolkit for cart and user state",
+      "Integrated PayPal sandbox and live checkout workflow",
+      "Admin dashboard with product creation, update, and order tracking",
+      "Optimized MongoDB aggregations for product filters and sales metrics",
+    ],
+    techStack: [
+      "React.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Redux Toolkit",
+      "PayPal API",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1557821552-17105176677c?w=900&h=600&fit=crop",
+    liveLink: "https://ecommerce-store-ten-chi-86.vercel.app",
+    githubLink: "https://github.com/saifcodes13/ecommerce-store.git",
+  },
+  {
+    id: "marketing-client",
+    title: "Client Business & Marketing Platform",
+    category: "frontend",
+    featured: false,
+    tagline: "High-conversion business website with EmailJS lead capture",
+    description:
+      "Professional marketing website engineered for a client business (Saeed Concepts), prioritizing fast load speed, pixel-perfect responsive layout, customer inquiry capture, and SEO optimization.",
+    highlights: [
+      "Integrated automated EmailJS inquiry capture and notification pipeline",
+      "Lighthouse performance score of 95+ with responsive layout",
+      "Modern interactive micro-animations for high conversion engagement",
+    ],
+    techStack: [
+      "React.js",
+      "Tailwind CSS",
+      "Node.js",
+      "Express.js",
+      "EmailJS",
+      "SEO",
+    ],
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&h=600&fit=crop",
+    liveLink: "https://saeedconcepts.netlify.app/",
+    githubLink: "https://github.com/saifcodes13",
+  },
+];
+
+export const skillsData = {
+  frontend: [
+    { name: "React.js", level: 92, icon: "react" },
+    { name: "JavaScript (ES6+)", level: 95, icon: "js" },
+    { name: "HTML5 & CSS3", level: 95, icon: "html" },
+    { name: "Tailwind CSS", level: 90, icon: "tailwind" },
+    { name: "Redux Toolkit", level: 85, icon: "redux" },
+    { name: "React Router", level: 90, icon: "router" },
+    { name: "Axios", level: 90, icon: "axios" },
+  ],
+  backend: [
+    { name: "Node.js", level: 88, icon: "node" },
+    { name: "Express.js", level: 88, icon: "express" },
+    { name: "REST APIs", level: 92, icon: "api" },
+    { name: "JWT Authentication", level: 90, icon: "jwt" },
+  ],
+  databases: [
+    { name: "MongoDB", level: 85, icon: "mongo" },
+    { name: "MySQL", level: 82, icon: "mysql" },
+  ],
+  cloudAndDevops: [
+    { name: "AWS S3", level: 80 },
+    { name: "Cloudflare Tunnel", level: 85 },
+    { name: "Nginx Reverse Proxy", level: 82 },
+    { name: "GitHub Actions CI/CD", level: 80 },
+    { name: "PM2 Process Manager", level: 85 },
+    { name: "Docker", level: 75 },
+    { name: "Ubuntu Linux", level: 85 },
+    { name: "AWS EC2 & VPC", level: 75 },
+    { name: "Vercel & Netlify", level: 92 },
+  ],
+  tools: [
+    "Git & GitHub",
+    "Postman",
+    "Figma",
+    "VS Code",
+    "MongoDB Compass",
+    "MySQL Workbench",
+    "EmailJS",
+  ],
+};
+
+export const servicesData = [
+  {
+    id: "fullstack-dev",
+    title: "Full-Stack Web & MVP Development",
+    icon: "code",
+    badge: "Core Service",
+    shortDesc:
+      "End-to-end custom web applications built for scale, performance, and real business value.",
+    description:
+      "From technical ideation to production deployment, I develop complete web platforms and SaaS products using React.js, Node.js, Express.js, MongoDB, and MySQL with clean, modular architecture.",
+    deliverables: [
+      "Custom React.js dynamic frontend architecture",
+      "Scalable RESTful API backend with Express & Node",
+      "Robust database design (MongoDB NoSQL & MySQL relational)",
+      "Secure user authentication (JWT & role-based permissions)",
+      "Fully responsive on mobile, tablet, and desktop",
+    ],
+    tech: ["React.js", "Node.js", "Express.js", "MongoDB", "MySQL", "REST APIs"],
+  },
+  {
+    id: "crm-dashboards",
+    title: "CRM Modules & Business Portals",
+    icon: "layout",
+    badge: "Enterprise",
+    shortDesc:
+      "Specialized internal tools, administrative dashboards, and enterprise CRM solutions.",
+    description:
+      "Leveraging hands-on experience developing 5+ CRM modules at BookEventz, I build reliable operational dashboards that streamline business workflows, sales tracking, and internal team operations.",
+    deliverables: [
+      "Interactive data tables, filters, and analytics views",
+      "Sales portal APIs with multi-level role access",
+      "Secure cloud asset storage integration via AWS S3",
+      "CSV, PDF, and real-time transaction reports",
+      "High-speed MySQL query optimization for large datasets",
+    ],
+    tech: ["React.js", "Node.js", "MySQL", "AWS S3", "JWT", "Tailwind CSS"],
+  },
+  {
+    id: "api-integrations",
+    title: "RESTful APIs & Third-Party Integrations",
+    icon: "server",
+    badge: "Backend",
+    shortDesc:
+      "Scalable microservices, secure endpoint development, and external third-party service connections.",
+    description:
+      "Design and deployment of production-grade REST APIs, payment gateways (PayPal/Stripe), transactional email services (EmailJS), and cloud asset pipelines.",
+    deliverables: [
+      "Modular, documented REST API endpoints",
+      "Payment gateway integration (PayPal, Stripe)",
+      "Transactional email & automated customer notifications",
+      "Error handling, input validation, and request sanitization",
+      "Third-party API aggregation and webhook listeners",
+    ],
+    tech: ["Node.js", "Express.js", "Postman", "PayPal API", "EmailJS", "JWT"],
+  },
+  {
+    id: "uiux-websites",
+    title: "High-Conversion Websites & UI/UX",
+    icon: "sparkles",
+    badge: "Frontend",
+    shortDesc:
+      "Pixel-perfect, modern marketing platforms and landing pages designed to drive conversions.",
+    description:
+      "Translate Figma designs into responsive, accessible code with ultra-fast page speeds, seamless micro-animations, and complete on-page SEO optimization.",
+    deliverables: [
+      "Pixel-perfect translation from Figma design prototypes",
+      "Lighthouse 95+ score optimization for speed and accessibility",
+      "Custom responsive design systems with Tailwind CSS",
+      "SEO meta structure and conversion-focused CTAs",
+      "Cross-browser and mobile device compatibility testing",
+    ],
+    tech: ["React.js", "Tailwind CSS", "HTML5", "CSS3", "Figma", "SEO"],
+  },
+  {
+    id: "cloud-devops",
+    title: "Cloud Deployment & DevOps Setup",
+    icon: "cloud",
+    badge: "DevOps",
+    shortDesc:
+      "Automated deployment pipelines, secure reverse proxies, and self-hosted cloud hosting infrastructure.",
+    description:
+      "Inspired by projects like CloudNest, I configure production server architectures, automated CI/CD runners, and secure tunnel ingress for robust uptime and easy releases.",
+    deliverables: [
+      "Self-hosted hosting setup with Nginx reverse proxy",
+      "Automated CI/CD with GitHub Actions & self-hosted runners",
+      "Secure public access tunneling via Cloudflare Tunnel",
+      "PM2 daemon process monitoring and zero-downtime reloads",
+      "Ubuntu Linux server provisioning and environment configuration",
+    ],
+    tech: ["Nginx", "Cloudflare Tunnel", "GitHub Actions", "PM2", "Ubuntu Linux", "AWS"],
+  },
+  {
+    id: "optimization-maintenance",
+    title: "Code Modernization & Performance Tuning",
+    icon: "wrench",
+    badge: "Optimization",
+    shortDesc:
+      "Code audits, database indexing, query optimization, and ongoing website maintenance.",
+    description:
+      "Diagnose latency bottlenecks, optimize database queries, refactor legacy components, and ensure your web applications run fast, securely, and without downtime.",
+    deliverables: [
+      "Slow database query analysis & MySQL / MongoDB indexing",
+      "Frontend bundle size reduction & code-splitting",
+      "Component refactoring for reusability and maintainability",
+      "Bug fixing, security audit, and dependency updates",
+      "Reliable ongoing technical support and maintenance",
+    ],
+    tech: ["React.js", "MySQL", "MongoDB", "Git", "Node.js", "Profiler"],
+  },
+];
+
+export const workflowSteps = [
+  {
+    step: "01",
+    title: "Discovery & Architecture",
+    description:
+      "We clarify your business goals, target audience, and feature roadmap to architect the ideal technical foundation and database schema.",
+  },
+  {
+    step: "02",
+    title: "UI/UX & Prototyping",
+    description:
+      "Creating modern, user-centric interfaces from Figma prototypes, establishing reusable design tokens and responsive layouts.",
+  },
+  {
+    step: "03",
+    title: "Full-Stack Development",
+    description:
+      "Building modular React components, clean RESTful APIs, secure authentication, and optimized database queries with regular sprint demos.",
+  },
+  {
+    step: "04",
+    title: "Testing, Deployment & Handoff",
+    description:
+      "Rigorous cross-device testing, CI/CD automated deployment, server setup, and clean documentation handoff for long-term success.",
+  },
+];
+
+export const blogsData = [
+  {
+    id: "cloudnest-architecture",
+    _id: "cloudnest-architecture",
+    slug: "how-i-built-cloudnest-self-hosted-platform",
+    title: "How I Built CloudNest: A Self-Hosted Static Deployment Platform with Nginx & Cloudflare",
+    category: "DevOps & Cloud",
+    readTime: "6 min read",
+    author: "Saif Tandel",
+    date: "Sep 2026",
+    featured: true,
+    published: true,
+    coverImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=900&h=600&fit=crop",
+    excerpt:
+      "A deep dive into how I built CloudNest — a self-hosted alternative to Netlify/Vercel with automated ZIP extraction, Nginx dynamic reverse proxying, and Cloudflare Tunnel security.",
+    tags: ["DevOps", "Nginx", "Cloudflare", "GitHub Actions", "Ubuntu", "Node.js"],
+    content: `### Why Build a Self-Hosted Deployment Platform?
+
+Modern developers love platforms like Netlify and Vercel because they make hosting static websites effortless: upload files, click deploy, and receive a live URL. However, for internal enterprise architectures or cost-conscious private clouds, having a self-hosted deployment engine offers unmatched control, zero bandwidth limits, and complete data sovereignty.
+
+In this article, I walk through the architecture behind **CloudNest**, my self-hosted deployment engine built with React.js, Node.js, Nginx, and Cloudflare Tunnel.
+
+---
+
+### The Core Architecture
+
+CloudNest consists of four tightly integrated layers:
+1. **Frontend Dashboard (React.js + Tailwind CSS)**: Users log in via JWT authentication, upload their site as a ZIP archive, and assign a custom subdomain.
+2. **Backend Engine (Node.js & Express)**: Handles file uploads, validates archive integrity, and safely unpacks the files into an isolated directory on the Ubuntu host.
+3. **Nginx Dynamic Reverse Proxy**: Directs incoming HTTP/HTTPS traffic to the corresponding static build folder based on the requested subdomain header.
+4. **Cloudflare Tunnel & Ingress**: Provides public SSL termination and DDoS protection without opening inbound ports on the host machine.
+
+---
+
+### Automating the ZIP Extraction Workflow
+
+When a user submits a ZIP build, the Express backend extracts it asynchronously to prevent blocking the event loop:
+
+\`\`\`javascript
+import unzipper from "unzipper";
+import fs from "fs-extra";
+import path from "path";
+
+export const deployStaticSite = async (subdomain, zipFilePath) => {
+  const targetDir = path.join("/var/www/cloudnest/sites", subdomain);
+  await fs.ensureDir(targetDir);
+
+  await fs.createReadStream(zipFilePath)
+    .pipe(unzipper.Extract({ path: targetDir }))
+    .promise();
+
+  // Reload Nginx or update symlink
+  await reloadNginxConfiguration();
+};
+\`\`\`
+
+---
+
+### Zero-Open-Port Security with Cloudflare Tunnel
+
+Instead of configuring public DNS records with exposed ports 80/443, CloudNest runs \`cloudflared\`. The daemon maintains outbound connections to Cloudflare's edge network:
+
+- **Wildcard Subdomain Ingress**: \`*.cloudnest.yourdomain.com\` routes through the tunnel directly to local Nginx on port 80.
+- **SSL by Default**: Automatic SSL certificate issuance via Cloudflare with zero certificate maintenance on the server.
+
+---
+
+### Key Takeaways
+
+1. **Automation Saves Hours**: Automating archive extraction and Nginx virtual hosts cut deployment times down to under 3 seconds.
+2. **Security First**: Cloudflare Tunnels completely shield the host server from malicious port scanners.
+3. **Reproducible Releases**: Integrating GitHub Actions self-hosted runners makes continuous integration straightforward for any team.
+`,
+  },
+  {
+    id: "scalable-crm-modules",
+    _id: "scalable-crm-modules",
+    slug: "architecting-scalable-crm-modules-react-nodejs",
+    title: "Architecting Scalable CRM Modules in React & Node.js: Lessons from BookEventz",
+    category: "Full-Stack Architecture",
+    readTime: "5 min read",
+    author: "Saif Tandel",
+    date: "Aug 2026",
+    featured: true,
+    published: true,
+    coverImage: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&h=600&fit=crop",
+    excerpt:
+      "Insights on building 5+ production CRM modules, reducing frontend boilerplate with reusable components, and architecting secure sales portal APIs with JWT.",
+    tags: ["React.js", "Node.js", "CRM", "JWT", "MySQL", "AWS S3"],
+    content: `### Enterprise CRM Challenges
+
+When developing enterprise CRM systems at **BookEventz**, our team had to handle hundreds of concurrent daily bookings, complex multi-stage sales pipelines, and high volumes of customer media uploads. 
+
+Without a clean architectural foundation, CRM frontends quickly become tangled with redundant state logic, slow data tables, and fragile permission checks.
+
+Here are the key principles and patterns I applied to keep our 5+ CRM modules clean, performant, and reliable.
+
+---
+
+### 1. The Reusable Component Library Pattern
+
+Instead of rebuilding tables, modal dialogs, and filter bars in each CRM module, I engineered over 20 reusable React components.
+
+Key components included:
+- **Virtualized Data Tables**: Capable of smoothly scrolling through thousands of lead records with column sorting and multi-field search.
+- **Role-Gated Action Buttons**: Automatically show, hide, or disable action triggers (e.g. *Approve Discount*, *Delete Lead*) based on decoded JWT roles.
+- **Media Upload Pipeline**: Direct-to-S3 pre-signed URL uploader that frees up the Node.js server from heavy file buffering.
+
+---
+
+### 2. Secure Sales Portal APIs with JWT
+
+Sales teams require granular permissions. An account executive shouldn't see executive revenue rollups, and sales agents should only modify their assigned deals.
+
+We structured our Express authorization middleware cleanly:
+
+\`\`\`javascript
+export const requireRole = (...allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user || !allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({ message: "Access denied: Insufficient permissions." });
+    }
+    next();
+  };
+};
+\`\`\`
+
+---
+
+### 3. Offloading Media to AWS S3
+
+Storing customer contracts, quotation PDFs, and venue photos directly on the application server degrades disk I/O and complicates container autoscaling. 
+
+By integrating **AWS S3 pre-signed URLs**, the client uploads files directly to S3 with cryptographic verification. The Express API merely records the clean S3 URL in MySQL.
+
+---
+
+### Summary
+
+Building modular CRM architectures requires treating internal tools with the same polish as customer-facing applications. Modular React components, role-gated APIs, and cloud asset storage are essential pillars for long-term scalability.
+`,
+  },
+  {
+    id: "database-performance-tuning",
+    _id: "database-performance-tuning",
+    slug: "optimizing-mysql-mongodb-performance-mern",
+    title: "Optimizing MySQL & MongoDB Performance in High-Traffic MERN Applications",
+    category: "Database Engineering",
+    readTime: "7 min read",
+    author: "Saif Tandel",
+    date: "Jul 2026",
+    featured: false,
+    published: true,
+    coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&h=600&fit=crop",
+    excerpt:
+      "Practical strategies for diagnosing slow queries, compound indexing, MongoDB aggregation pipelines, and MySQL connection pooling in production.",
+    tags: ["MongoDB", "MySQL", "Performance", "Node.js", "Backend"],
+    content: `### Database Bottlenecks in Modern Web Apps
+
+In full-stack development, 80% of application latency usually originates not from the React rendering thread or Node.js CPU cycles, but from unindexed, poorly structured database queries.
+
+Whether using relational MySQL or document-based MongoDB, understanding execution plans is the fastest way to turn a sluggish web app into an instantaneous user experience.
+
+---
+
+### 1. The Power of Compound Indexes in MongoDB
+
+When filtering items across multiple criteria (for instance in our **MedFinder** app: searching medicine name + pharmacy location + stock availability), single-field indexes are insufficient.
+
+\`\`\`javascript
+// Compound index ensures query touches minimal index keys
+medicineSchema.index({ name: 1, location: "2dsphere", inStock: 1 });
+\`\`\`
+
+Always test queries using \`.explain("executionStats")\` to ensure the database engine is performing an **IXSCAN** (Index Scan) rather than a disastrous **COLLSCAN** (Collection Scan).
+
+---
+
+### 2. Eliminating N+1 Query Traps in MySQL
+
+In CRM systems where a customer order lists 10 items, naive ORM logic often queries the order once and then executes 10 separate queries for each line item (the notorious N+1 problem).
+
+**Solution**:
+- Use proper relational SQL \`JOIN\` statements or \`IN (...)\` batched fetching.
+- Leverage MySQL query caching and connection pooling via \`mysql2/promise\` with pool limits configured to match your server RAM.
+
+---
+
+### 3. Caching Read-Heavy Endpoints
+
+Frequently accessed data like public project catalogs, store directories, or skill definitions shouldn't hit the disk on every page load:
+- Implement in-memory caching (Redis or local memory cache) with short TTLs.
+- Send appropriate HTTP cache headers (\`Cache-Control: public, max-age=3600\`) so browsers and CDNs can cache responses edge-side.
+
+---
+
+### Conclusion
+
+Monitoring query execution times, adding compound indexes, and eliminating redundant roundtrips allowed our systems to handle 4x higher concurrency with sub-100ms response latencies.
+`,
+  },
+];
+
+

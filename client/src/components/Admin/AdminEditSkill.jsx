@@ -45,10 +45,14 @@ const AdminEditSkill = () => {
     }
   }, [skills]);
 
-  // Convert tools array to string (FIXED)
+  // Convert tools array to string
   useEffect(() => {
     if (skills?.tools) {
-      setToolsInput(skills.tools.join(", "));
+      setToolsInput(
+        skills.tools
+          .map((t) => (typeof t === "string" ? t : t.name))
+          .join(", ")
+      );
     }
   }, [skills]);
 
@@ -74,15 +78,43 @@ const AdminEditSkill = () => {
     e.preventDefault();
 
     try {
-      const frontend = parseSkillInput(frontendInput);
-      const backend = parseSkillInput(backendInput);
+      const existingFrontendMap = new Map(
+        (skills?.frontend || []).map((s) => [s.name.toLowerCase(), s.active !== false])
+      );
+      const existingBackendMap = new Map(
+        (skills?.backend || []).map((s) => [s.name.toLowerCase(), s.active !== false])
+      );
+      const existingToolsMap = new Map(
+        (skills?.tools || []).map((t) => [
+          (typeof t === "string" ? t : t.name).toLowerCase(),
+          typeof t === "string" ? true : t.active !== false,
+        ])
+      );
+
+      const frontend = parseSkillInput(frontendInput).map((s) => ({
+        ...s,
+        active: existingFrontendMap.has(s.name.toLowerCase())
+          ? existingFrontendMap.get(s.name.toLowerCase())
+          : true,  
+      }));
+
+      const backend = parseSkillInput(backendInput).map((s) => ({
+        ...s,
+        active: existingBackendMap.has(s.name.toLowerCase())
+          ? existingBackendMap.get(s.name.toLowerCase())
+          : true,
+      }));
 
       const tools = toolsInput
         .split(",")
         .map((tool) => tool.trim())
-        .filter(Boolean);
-
-      // console.log(frontend);
+        .filter(Boolean)
+        .map((tool) => ({
+          name: tool,
+          active: existingToolsMap.has(tool.toLowerCase())
+            ? existingToolsMap.get(tool.toLowerCase())
+            : true,
+        }));
 
       await updateSkill({
         frontend,
