@@ -35,11 +35,13 @@ const Experience = () => {
               </div>
 
               {/* Date tag for desktop on the left */}
-              <div className="hidden md:block absolute -left-36 top-1 text-right w-28">
-                <span className="text-xs font-mono font-medium text-purple-300/80 bg-purple-950/40 px-2.5 py-1 rounded-md border border-purple-800/40">
-                  {exp.period}
-                </span>
-              </div>
+              {exp.period && (
+                <div className="hidden md:block absolute -left-36 top-1 text-right w-28">
+                  <span className="text-xs font-mono font-medium text-purple-300/80 bg-purple-950/40 px-2.5 py-1 rounded-md border border-purple-800/40">
+                    {exp.period}
+                  </span>
+                </div>
+              )}
 
               {/* Card */}
               <div className="glass-panel glass-panel-hover p-6 lg:p-8 rounded-2xl border border-white/10 relative">
@@ -67,10 +69,12 @@ const Experience = () => {
                   </div>
 
                   {/* Mobile Date display */}
-                  <div className="md:hidden flex items-center gap-1.5 text-xs text-purple-300/90 font-mono bg-purple-900/30 px-2.5 py-1 rounded w-fit border border-purple-500/20">
-                    <Calendar className="w-3.5 h-3.5" />
-                    <span>{exp.period}</span>
-                  </div>
+                  {exp.period && (
+                    <div className="md:hidden flex items-center gap-1.5 text-xs text-purple-300/90 font-mono bg-purple-900/30 px-2.5 py-1 rounded w-fit border border-purple-500/20">
+                      <Calendar className="w-3.5 h-3.5" />
+                      <span>{exp.period}</span>
+                    </div>
+                  )}
                 </div>
 
                 <p className="text-gray-300 text-sm lg:text-base mb-5 leading-relaxed">

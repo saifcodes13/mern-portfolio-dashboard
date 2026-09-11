@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Plus, Pencil, Trash2, Undo2, BookOpen, Eye, Clock, Tag, Power, PowerOff, CheckCircle2, XCircle } from "lucide-react";
+import { Plus, Pencil, Trash2, Undo2, BookOpen, Eye, Clock, Tag, Power, PowerOff, CheckCircle2, XCircle, Save, Loader2 } from "lucide-react";
 import { fetchBlogs, deleteBlog, updateBlog } from "../../api/portfolioApi";
 
 const AdminBlogs = () => {
   const [blogs, setBlogs] = useState([]);
+  const [originalBlogs, setOriginalBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [successMsg, setSuccessMsg] = useState(null);
+  const [hasChanges, setHasChanges] = useState(false);
   const navigate = useNavigate();
 
   const loadData = async () => {
@@ -14,6 +18,8 @@ const AdminBlogs = () => {
       setLoading(true);
       const data = await fetchBlogs();
       setBlogs(data || []);
+      setOriginalBlogs(JSON.parse(JSON.stringify(data || [])));
+      setHasChanges(false);
     } catch (err) {
       setError("Failed to load blog posts");
     } finally {
@@ -25,31 +31,77 @@ const AdminBlogs = () => {
     loadData();
   }, []);
 
-  const toggleStatus = async (blog) => {
+  const toggleStatus = (blog) => {
+    const targetId = blog._id || blog.id || blog.slug;
+    if (!targetId) return;
     const currentActive = blog.active !== false && blog.published !== false;
     const nextActive = !currentActive;
-    try {
-      await updateBlog(blog.id || blog._id, {
-        active: nextActive,
-        published: nextActive,
+
+    setBlogs((prev) => {
+      const nextList = prev.map((b) => {
+        const itemKey = b._id || b.id || b.slug;
+        return String(itemKey) === String(targetId)
+          ? { ...b, active: nextActive, published: nextActive }
+          : b;
       });
-      setBlogs((prev) =>
-        prev.map((b) =>
-          (b.id === blog.id || b._id === blog._id)
-            ? { ...b, active: nextActive, published: nextActive }
-            : b
+
+      const modified = nextList.some((b) => {
+        const orig = originalBlogs.find(
+          (o) => String(o._id || o.id || o.slug) === String(b._id || b.id || b.slug)
+        );
+        if (!orig) return false;
+        const origActive = orig.active !== false && orig.published !== false;
+        const curActive = b.active !== false && b.published !== false;
+        return origActive !== curActive;
+      });
+
+      setHasChanges(modified);
+      return nextList;
+    });
+  };
+
+  const handleSaveChanges = async () => {
+    setSaving(true);
+    setError(null);
+    setSuccessMsg(null);
+    try {
+      const changedBlogs = blogs.filter((b) => {
+        const orig = originalBlogs.find(
+          (o) => String(o._id || o.id || o.slug) === String(b._id || b.id || b.slug)
+        );
+        if (!orig) return false;
+        const origActive = orig.active !== false && orig.published !== false;
+        const curActive = b.active !== false && b.published !== false;
+        return origActive !== curActive;
+      });
+
+      await Promise.all(
+        changedBlogs.map((b) =>
+          updateBlog(b._id || b.id || b.slug, {
+            active: b.active !== false && b.published !== false,
+            published: b.active !== false && b.published !== false,
+          })
         )
       );
+
+      setOriginalBlogs(JSON.parse(JSON.stringify(blogs)));
+      setHasChanges(false);
+      setSuccessMsg(`Saved ${changedBlogs.length} blog status change(s) successfully!`);
+      setTimeout(() => setSuccessMsg(null), 4000);
     } catch (err) {
-      alert("Failed to update status: " + err.message);
+      setError("Failed to save changes: " + err.message);
+    } finally {
+      setSaving(false);
     }
   };
 
   const handleDelete = async (id) => {
+    if (!id) return;
     if (window.confirm("Are you sure you want to delete this blog post?")) {
       try {
         await deleteBlog(id);
-        setBlogs((prev) => prev.filter((b) => b.id !== id && b._id !== id));
+        setBlogs((prev) => prev.filter((b) => String(b._id || b.id || b.slug) !== String(id)));
+        setOriginalBlogs((prev) => prev.filter((b) => String(b._id || b.id || b.slug) !== String(id)));
         alert("Blog post deleted successfully!");
       } catch (err) {
         alert("Failed to delete blog post: " + err.message);
@@ -79,14 +131,38 @@ const AdminBlogs = () => {
           </p>
         </div>
 
-        <button
-          onClick={() => navigate("/admin/blogs/create")}
-          className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl font-semibold transition cursor-pointer shadow-lg shadow-purple-600/30"
-        >
-          <Plus className="w-5 h-5" />
-          <span>Write New Blog</span>
-        </button>
+        <div className="flex items-center gap-3">
+          {hasChanges && (
+            <button
+              onClick={handleSaveChanges}
+              disabled={saving}
+              className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-5 py-2.5 rounded-xl font-semibold transition cursor-pointer shadow-lg shadow-emerald-600/30 animate-pulse"
+            >
+              {saving ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Save className="w-5 h-5" />
+              )}
+              <span>{saving ? "Saving..." : "Save Changes"}</span>
+            </button>
+          )}
+
+          <button
+            onClick={() => navigate("/admin/blogs/create")}
+            className="flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl font-semibold transition cursor-pointer shadow-lg shadow-purple-600/30"
+          >
+            <Plus className="w-5 h-5" />
+            <span>Write New Blog</span>
+          </button>
+        </div>
       </div>
+
+      {successMsg && (
+        <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-xl mb-6 flex items-center gap-2">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+          <span>{successMsg}</span>
+        </div>
+      )}
 
       {error && (
         <div className="p-4 bg-red-500/10 border border-red-500/30 text-red-300 rounded-xl mb-6">

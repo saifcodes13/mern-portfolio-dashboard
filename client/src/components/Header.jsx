@@ -17,12 +17,12 @@ const Header = () => {
 
   const navItems = [
     { name: "Home", path: "/" },
-    { name: "Services", path: "/services", anchor: "#services" },
+    { name: "Expertise", path: "/services", anchor: "#services" },
     { name: "Projects", path: "/projects", anchor: "#projects" },
     { name: "Blogs", path: "/blogs" },
     { name: "Experience", path: "/experience", anchor: "#experience" },
     { name: "Skills", path: "/skills", anchor: "#skills" },
-    { name: "Education", path: "/#education", isAnchorOnly: true },
+    // { name: "Education", path: "/#education", isAnchorOnly: true },
     { name: "Contact", path: "/contact", anchor: "#contact" },
   ];
 

@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import ProjectModel from "../models/project.model.js";
 
 const getProjects = async (req, res) => {
@@ -6,20 +7,33 @@ const getProjects = async (req, res) => {
 };
 
 const getProjectById = async (req, res) => {
-  const project = await ProjectModel.findById(req.params.id);
+  const { id } = req.params;
+  let project = null;
+  if (mongoose.Types.ObjectId.isValid(id)) {
+    project = await ProjectModel.findById(id);
+  }
+  if (!project) {
+    project = await ProjectModel.findOne({ id });
+  }
   if (project) {
     res.json(project);
   } else {
-    res.status(404);
-    throw new Error("Product not found");
+    res.status(404).json({ message: "Project not found" });
   }
 };
 
 const updateProject = async (req, res) => {
   try {
-    const project = await ProjectModel.findById(req.params.id);
+    const { id } = req.params;
+    let project = null;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      project = await ProjectModel.findById(id);
+    }
     if (!project) {
-     return res.status(404).json({ message: "Project not found" });
+      project = await ProjectModel.findOne({ id });
+    }
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
     }
 
     project.title = req.body.title || project.title;
@@ -72,13 +86,23 @@ const createProject = async (req, res) => {
 };
 
 const deleteProject = async (req, res) => {
-  const project = await ProjectModel.findById(req.params.id);
-  if (project) {
-    await ProjectModel.deleteOne({ _id: req.params.id });
+  try {
+    const { id } = req.params;
+    let project = null;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      project = await ProjectModel.findById(id);
+    }
+    if (!project) {
+      project = await ProjectModel.findOne({ id });
+    }
+    if (!project) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    await ProjectModel.deleteOne({ _id: project._id });
     res.status(200).json({ message: "Project deleted" });
-  } else {
-    res.status(404);
-    throw new Error("Project not found");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 export {

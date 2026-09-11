@@ -1,16 +1,17 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { Plus, Pencil, Trash2, Undo2, CheckCircle2, XCircle } from "lucide-react";
-
+import { useEffect, useState } from "react";
+import { Plus, Pencil, Trash2, Undo2, CheckCircle2, XCircle, Save, Loader2 } from "lucide-react";
 import { fetchProjects, deleteProject, updateProject } from "../../api/portfolioApi";
 import { Link, useNavigate } from "react-router-dom";
-
 
 const AdminProjects = () => {
   const [projects, setProjects] = useState(() => {
     const cached = localStorage.getItem("projects");
     return cached ? JSON.parse(cached) : null;
   });
+  const [originalProjects, setOriginalProjects] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [hasChanges, setHasChanges] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(null);
   const [error, setError] = useState();
 
   const navigate = useNavigate();
@@ -19,8 +20,10 @@ const AdminProjects = () => {
     const loadData = async () => {
       try {
         const data = await fetchProjects();
-        setProjects(data);
+        setProjects(data || []);
+        setOriginalProjects(JSON.parse(JSON.stringify(data || [])));
         localStorage.setItem("projects", JSON.stringify(data));
+        setHasChanges(false);
       } catch (error) {
         setError("Failed to load projects");
       }
@@ -28,27 +31,70 @@ const AdminProjects = () => {
     loadData();
   }, []);
 
-  const toggleActive = async (project) => {
+  const toggleActive = (project) => {
+    const targetId = project._id || project.id;
+    if (!targetId) return;
     const nextActive = !(project.active !== false);
+
+    setProjects((prev) => {
+      const nextList = prev.map((p) => {
+        const itemKey = p._id || p.id;
+        return String(itemKey) === String(targetId)
+          ? { ...p, active: nextActive }
+          : p;
+      });
+
+      const modified = nextList.some((p) => {
+        const orig = originalProjects.find(
+          (o) => String(o._id || o.id) === String(p._id || p.id)
+        );
+        if (!orig) return false;
+        return (orig.active !== false) !== (p.active !== false);
+      });
+
+      setHasChanges(modified);
+      return nextList;
+    });
+  };
+
+  const handleSaveChanges = async () => {
+    setSaving(true);
+    setError(null);
+    setSuccessMsg(null);
     try {
-      await updateProject(project._id || project.id, { active: nextActive });
-      setProjects((prev) =>
-        prev.map((p) =>
-          (p._id === project._id || p.id === project.id)
-            ? { ...p, active: nextActive }
-            : p
+      const changedProjects = projects.filter((p) => {
+        const orig = originalProjects.find(
+          (o) => String(o._id || o.id) === String(p._id || p.id)
+        );
+        if (!orig) return false;
+        return (orig.active !== false) !== (p.active !== false);
+      });
+
+      await Promise.all(
+        changedProjects.map((p) =>
+          updateProject(p._id || p.id, { active: p.active !== false })
         )
       );
+
+      setOriginalProjects(JSON.parse(JSON.stringify(projects)));
+      localStorage.setItem("projects", JSON.stringify(projects));
+      setHasChanges(false);
+      setSuccessMsg(`Saved ${changedProjects.length} project status change(s) successfully!`);
+      setTimeout(() => setSuccessMsg(null), 4000);
     } catch (err) {
-      alert("Failed to update status: " + err.message);
+      setError("Failed to save changes: " + err.message);
+    } finally {
+      setSaving(false);
     }
   };
 
   const handleDelete = async (id) => {
+    if (!id) return;
     if (window.confirm("Are you sure?")) {
       try {
         await deleteProject(id);
-        setProjects((prev) => prev.filter((p) => p._id !== id && p.id !== id));
+        setProjects((prev) => prev.filter((p) => String(p._id || p.id) !== String(id)));
+        setOriginalProjects((prev) => prev.filter((p) => String(p._id || p.id) !== String(id)));
         alert("Project deleted successfully");
       } catch (error) {
         alert(error.message || "Delete failed");
@@ -62,22 +108,49 @@ const AdminProjects = () => {
 
   return (
     <>
-      <Link to={"/admin"}>
-        <Undo2 />
-      </Link>
-      <div className=" min-h-screen  bg-[#0a0a0a] text-white px-8 py-10">
+      <div className="min-h-screen bg-[#0a0a0a] text-white px-8 py-10">
+        <Link to={"/admin"} className="inline-flex items-center gap-2 text-gray-400 hover:text-purple-400 mb-6 transition">
+          <Undo2 className="w-5 h-5" />
+          <span>Back to Dashboard</span>
+        </Link>
+
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold">
             Manage <span className="text-purple-400">Projects</span>
           </h1>
-          <button
-            onClick={() => navigate(`/admin/projects/create`)}
-            className=" flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md cursor-pointer"
-          >
-            <Plus />
-            Add Project
-          </button>
+
+          <div className="flex items-center gap-3">
+            {hasChanges && (
+              <button
+                onClick={handleSaveChanges}
+                disabled={saving}
+                className="flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white px-5 py-2 rounded-md font-semibold transition cursor-pointer shadow-lg shadow-emerald-600/30 animate-pulse"
+              >
+                {saving ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4" />
+                )}
+                <span>{saving ? "Saving..." : "Save Changes"}</span>
+              </button>
+            )}
+
+            <button
+              onClick={() => navigate(`/admin/projects/create`)}
+              className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-md cursor-pointer"
+            >
+              <Plus />
+              Add Project
+            </button>
+          </div>
         </div>
+
+        {successMsg && (
+          <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 rounded-xl mb-6 flex items-center gap-2">
+            <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+            <span>{successMsg}</span>
+          </div>
+        )}
 
         {/* Project table*/}
         <div className="bg-[#111111] border border-purple-500/20 rounded-xl overflow-hidden">

@@ -11,6 +11,7 @@ import {
   Share2,
 } from "lucide-react";
 import { fetchBlogs } from "../../api/portfolioApi";
+import Loader from "../Loader.jsx";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -111,7 +112,11 @@ const Blogs = () => {
           </div>
         </div>
 
-        {/* Featured Post Hero Card (shown when no search query is active) */}
+        {loading ? (
+          <Loader message="Fetching engineering blogs & case studies..." minHeight="min-h-[350px]" />
+        ) : (
+          <>
+            {/* Featured Post Hero Card (shown when no search query is active) */}
         {!searchQuery && activeCategory === "All" && featuredBlog && (
           <div className="mb-16">
             <div className="glass-panel glass-panel-hover rounded-3xl overflow-hidden border border-purple-500/30 grid md:grid-cols-12 gap-6 group">
@@ -259,6 +264,8 @@ const Blogs = () => {
               Try searching with another keyword or select "All" categories.
             </p>
           </div>
+        )}
+          </>
         )}
 
       </div>

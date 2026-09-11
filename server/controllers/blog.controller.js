@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import BlogModel from "../models/blog.model.js";
 import { blogs as defaultBlogs } from "../data/blogs.data.js";
 
@@ -48,62 +49,39 @@ export const getBlogByIdOrSlug = async (req, res) => {
 
     res.json(blog);
   } catch (error) {
-    const fallback = defaultBlogs.find(
-      (b) => b.id === req.params.id || b.slug === req.params.id
-    );
-    if (fallback) return res.json(fallback);
     res.status(500).json({ message: error.message });
   }
 };
 
-// POST /api/blogs/create
+// POST /api/blogs
 export const createBlog = async (req, res) => {
   try {
-    const {
-      title,
-      slug,
-      excerpt,
-      content,
-      coverImage,
-      category,
-      readTime,
-      tags,
-      featured,
-      published,
-    } = req.body;
-
-    const generatedSlug =
-      slug ||
-      title
+    const data = { ...req.body };
+    if (!data.slug && data.title) {
+      data.slug = data.title
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/(^-|-$)/g, "");
-
-    const blog = new BlogModel({
-      title,
-      slug: generatedSlug,
-      excerpt,
-      content,
-      coverImage,
-      category: category || "Engineering",
-      readTime: readTime || "5 min read",
-      tags: tags || [],
-      featured: featured || false,
-      published: published !== undefined ? published : true,
-      active: req.body.active !== undefined ? req.body.active : (published !== undefined ? published : true),
-    });
-
-    const createdBlog = await blog.save();
-    res.status(201).json(createdBlog);
+    }
+    const newBlog = new BlogModel(data);
+    const savedBlog = await newBlog.save();
+    res.status(201).json(savedBlog);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
 // PUT /api/blogs/:id
 export const updateBlog = async (req, res) => {
   try {
-    const blog = await BlogModel.findById(req.params.id);
+    const { id } = req.params;
+    let blog = null;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      blog = await BlogModel.findById(id);
+    }
+    if (!blog) {
+      blog = await BlogModel.findOne({ $or: [{ id }, { slug: id }] });
+    }
     if (!blog) {
       return res.status(404).json({ message: "Blog post not found" });
     }
@@ -130,12 +108,19 @@ export const updateBlog = async (req, res) => {
 // DELETE /api/blogs/:id
 export const deleteBlog = async (req, res) => {
   try {
-    const blog = await BlogModel.findById(req.params.id);
+    const { id } = req.params;
+    let blog = null;
+    if (mongoose.Types.ObjectId.isValid(id)) {
+      blog = await BlogModel.findById(id);
+    }
+    if (!blog) {
+      blog = await BlogModel.findOne({ $or: [{ id }, { slug: id }] });
+    }
     if (!blog) {
       return res.status(404).json({ message: "Blog post not found" });
     }
 
-    await BlogModel.deleteOne({ _id: req.params.id });
+    await BlogModel.deleteOne({ _id: blog._id });
     res.json({ message: "Blog post deleted successfully" });
   } catch (error) {
     res.status(500).json({ message: error.message });

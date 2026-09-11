@@ -14,18 +14,32 @@ const API = axios.create({
   timeout: 4000,
 });
 
+// In-flight request caching to prevent duplicate network calls
+let projectsPromise = null;
+let skillsPromise = null;
+let personalInfoPromise = null;
+let blogsPromise = null;
+
 //  PROJECTS 
 export const fetchProjects = async () => {
-  try {
-    const res = await API.get("/api/projects");
-    if (res.data && Array.isArray(res.data) && res.data.length > 0) {
-      return res.data;
+  if (projectsPromise) return projectsPromise;
+
+  projectsPromise = (async () => {
+    try {
+      const res = await API.get("/api/projects");
+      if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+        return res.data;
+      }
+      return defaultProjects;
+    } catch (error) {
+      console.warn("API projects fetch failed, using CV default data:", error.message);
+      return defaultProjects;
+    } finally {
+      setTimeout(() => { projectsPromise = null; }, 2000);
     }
-    return defaultProjects;
-  } catch (error) {
-    console.warn("API projects fetch failed, using CV default data:", error.message);
-    return defaultProjects;
-  }
+  })();
+
+  return projectsPromise;
 };
 
 export const fetchProjectById = async (id) => {
@@ -41,10 +55,12 @@ export const fetchProjectById = async (id) => {
 
 export const createProject = async (data) => {
   const res = await API.post("/api/projects/create", data);
+  projectsPromise = null;
   return res.data;
 };
 
 export const updateProject = async (id, updatedData) => {
+  projectsPromise = null;
   let updated = null;
   try {
     const res = await API.put(`/api/projects/${id}`, updatedData);
@@ -58,7 +74,8 @@ export const updateProject = async (id, updatedData) => {
   if (cached) {
     try {
       const list = JSON.parse(cached);
-      const idx = list.findIndex((p) => p._id === id || p.id === id);
+      const targetStr = String(id);
+      const idx = list.findIndex((p) => String(p._id || p.id) === targetStr);
       if (idx !== -1) {
         list[idx] = { ...list[idx], ...updatedData };
         localStorage.setItem("projects", JSON.stringify(list));
@@ -71,37 +88,46 @@ export const updateProject = async (id, updatedData) => {
 };
 
 export const deleteProject = async (id) => {
+  projectsPromise = null;
   const res = await API.delete(`/api/projects/${id}`);
   return res.data;
 };
 
 //  SKILLS 
 export const fetchSkills = async () => {
-  try {
-    const res = await API.get("/api/skills");
-    if (res.data && (res.data.frontend || res.data.backend)) {
-      // Merge with CV categories if DB only had frontend/backend/tools
-      const merged = {
-        ...defaultSkills,
-        ...res.data,
-      };
-      localStorage.setItem("skills", JSON.stringify(merged));
-      return merged;
+  if (skillsPromise) return skillsPromise;
+
+  skillsPromise = (async () => {
+    try {
+      const res = await API.get("/api/skills");
+      if (res.data && (res.data.frontend || res.data.backend)) {
+        const merged = {
+          ...defaultSkills,
+          ...res.data,
+        };
+        localStorage.setItem("skills", JSON.stringify(merged));
+        return merged;
+      }
+      return defaultSkills;
+    } catch (error) {
+      console.warn("API skills fetch failed, using CV default data:", error.message);
+      const cached = localStorage.getItem("skills");
+      if (cached) {
+        try {
+          return JSON.parse(cached);
+        } catch {}
+      }
+      return defaultSkills;
+    } finally {
+      setTimeout(() => { skillsPromise = null; }, 2000);
     }
-    return defaultSkills;
-  } catch (error) {
-    console.warn("API skills fetch failed, using CV default data:", error.message);
-    const cached = localStorage.getItem("skills");
-    if (cached) {
-      try {
-        return JSON.parse(cached);
-      } catch {}
-    }
-    return defaultSkills;
-  }
+  })();
+
+  return skillsPromise;
 };
 
 export const updateSkill = async (updatedData) => {
+  skillsPromise = null;
   let updated = null;
   try {
     const res = await API.put("/api/skills/edit", updatedData);
@@ -116,19 +142,27 @@ export const updateSkill = async (updatedData) => {
 
 //  PERSONAL INFO 
 export const fetchPersonalInfo = async () => {
-  try {
-    const res = await API.get("/api/personalInfo");
-    if (res.data && res.data.name) {
-      return {
-        ...defaultPersonalInfo,
-        ...res.data,
-      };
+  if (personalInfoPromise) return personalInfoPromise;
+
+  personalInfoPromise = (async () => {
+    try {
+      const res = await API.get("/api/personalInfo");
+      if (res.data && res.data.name) {
+        return {
+          ...defaultPersonalInfo,
+          ...res.data,
+        };
+      }
+      return defaultPersonalInfo;
+    } catch (error) {
+      console.warn("API personalInfo fetch failed, using CV default data:", error.message);
+      return defaultPersonalInfo;
+    } finally {
+      setTimeout(() => { personalInfoPromise = null; }, 2000);
     }
-    return defaultPersonalInfo;
-  } catch (error) {
-    console.warn("API personalInfo fetch failed, using CV default data:", error.message);
-    return defaultPersonalInfo;
-  }
+  })();
+
+  return personalInfoPromise;
 };
 
 //  CONTACT 
@@ -145,28 +179,36 @@ export const createContact = async (data) => {
 
 //  BLOGS 
 export const fetchBlogs = async () => {
-  try {
-    const res = await API.get("/api/blogs");
-    if (res.data && Array.isArray(res.data) && res.data.length > 0) {
-      localStorage.setItem("blogs_cache", JSON.stringify(res.data));
-      return res.data;
-    }
-  } catch (error) {
-    console.warn("API blogs fetch failed, using local/cached blogs:", error.message);
-  }
+  if (blogsPromise) return blogsPromise;
 
-  const cached = localStorage.getItem("blogs_cache");
-  if (cached) {
+  blogsPromise = (async () => {
     try {
-      return JSON.parse(cached);
-    } catch {
-      // ignore
+      const res = await API.get("/api/blogs");
+      if (res.data && Array.isArray(res.data) && res.data.length > 0) {
+        localStorage.setItem("blogs_cache", JSON.stringify(res.data));
+        return res.data;
+      }
+    } catch (error) {
+      console.warn("API blogs fetch failed, using local/cached blogs:", error.message);
+    } finally {
+      setTimeout(() => { blogsPromise = null; }, 2000);
     }
-  }
 
-  const { blogsData } = await import("../data/portfolioData");
-  localStorage.setItem("blogs_cache", JSON.stringify(blogsData));
-  return blogsData;
+    const cached = localStorage.getItem("blogs_cache");
+    if (cached) {
+      try {
+        return JSON.parse(cached);
+      } catch {
+        // ignore
+      }
+    }
+
+    const { blogsData } = await import("../data/portfolioData");
+    localStorage.setItem("blogs_cache", JSON.stringify(blogsData));
+    return blogsData;
+  })();
+
+  return blogsPromise;
 };
 
 export const fetchBlogById = async (idOrSlug) => {
@@ -217,6 +259,7 @@ export const createBlog = async (data) => {
 };
 
 export const updateBlog = async (id, updatedData) => {
+  blogsPromise = null;
   let updated = null;
   try {
     const res = await API.put(`/api/blogs/${id}`, updatedData);
@@ -227,7 +270,10 @@ export const updateBlog = async (id, updatedData) => {
   }
 
   const allBlogs = await fetchBlogs();
-  const index = allBlogs.findIndex((b) => b.id === id || b._id === id);
+  const targetStr = String(id);
+  const index = allBlogs.findIndex(
+    (b) => String(b._id || b.id || b.slug) === targetStr
+  );
   if (index !== -1) {
     allBlogs[index] = { ...allBlogs[index], ...updated };
     localStorage.setItem("blogs_cache", JSON.stringify(allBlogs));
@@ -236,6 +282,7 @@ export const updateBlog = async (id, updatedData) => {
 };
 
 export const deleteBlog = async (id) => {
+  blogsPromise = null;
   try {
     await API.delete(`/api/blogs/${id}`);
   } catch (error) {
@@ -243,7 +290,10 @@ export const deleteBlog = async (id) => {
   }
 
   const allBlogs = await fetchBlogs();
-  const filtered = allBlogs.filter((b) => b.id !== id && b._id !== id);
+  const targetStr = String(id);
+  const filtered = allBlogs.filter(
+    (b) => String(b._id || b.id || b.slug) !== targetStr
+  );
   localStorage.setItem("blogs_cache", JSON.stringify(filtered));
   return { message: "Deleted successfully" };
 };

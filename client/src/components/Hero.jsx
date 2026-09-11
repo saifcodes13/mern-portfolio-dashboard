@@ -59,9 +59,9 @@ const Hero = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
             </span>
-            <span className="font-semibold">Available for Projects & Roles</span>
+            <span className="font-semibold">Open to Full-Time Software Engineering Roles</span>
             <span className="text-gray-500">|</span>
-            <span className="text-purple-300 font-semibold">Full-Stack Development Studio & Portfolio</span>
+            <span className="text-purple-300 font-semibold">Full-Stack Software Engineer & MERN Specialist</span>
           </div>
 
           {/* Heading */}
@@ -77,47 +77,47 @@ const Hero = () => {
 
             <div className="text-xl sm:text-3xl lg:text-4xl font-bold">
               <span className="bg-gradient-to-r from-purple-400 via-indigo-300 to-purple-500 bg-clip-text text-transparent">
-                Full-Stack Web Apps, Custom SaaS & Digital Solutions
+                Full-Stack Software Engineer & MERN Developer
               </span>
             </div>
           </div>
 
           {/* Tagline / Pitch */}
           <p className="text-base sm:text-lg lg:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-normal">
-            Specializing in building scalable business applications with <span className="text-purple-300 font-medium">React.js, Node.js, Express.js, MongoDB, and MySQL</span>. Providing end-to-end client services from MVP development to enterprise CRM systems, cloud deployments, and custom APIs.
+            Building scalable web applications, enterprise CRM portals, and cloud infrastructure using <span className="text-purple-300 font-medium">React.js, Node.js, Express.js, MongoDB, and MySQL</span>. Experienced in RESTful API architecture, state management, and production deployments.
           </p>
 
           {/* Location & Quick Credential Pill */}
           <div className="flex items-center justify-center gap-6 text-sm text-gray-400 flex-wrap">
             <span className="flex items-center gap-1.5">
               <MapPin className="w-4 h-4 text-purple-400" />
-              {info.location || "Mumbai, India"}
+              {info.location || "Dubai, United Arab Emirates"}
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              Full-Stack & Client Solutions
+              Full-Stack Architecture (MERN)
             </span>
             <span className="flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 text-indigo-400" />
-              Custom CRM & Cloud Ready
+              Enterprise CRM & Cloud Systems
             </span>
           </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <a
-              href="#services"
+              href="#projects"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white px-7 py-3.5 text-base font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-purple-600/30 hover:scale-105"
             >
-              Explore Services
+              Explore Projects
               <ArrowRight className="w-4 h-4" />
             </a>
 
             <a
-              href="#projects"
+              href="#services"
               className="inline-flex items-center gap-2 glass-panel hover:bg-white/10 text-gray-200 hover:text-white px-7 py-3.5 text-base font-semibold rounded-xl border border-white/15 transition-all duration-300 hover:scale-105"
             >
-              View Portfolio Work
+              Technical Expertise
             </a>
 
             <a
@@ -125,16 +125,7 @@ const Hero = () => {
               className="inline-flex items-center gap-2 glass-panel hover:bg-white/10 text-gray-200 hover:text-white px-7 py-3.5 text-base font-semibold rounded-xl border border-purple-500/30 text-purple-300 transition-all duration-300 hover:scale-105"
             >
               <Mail className="w-4 h-4 text-purple-400" />
-              Request a Quote
-            </a>
-
-            <a
-              href={info.whatsapp || "https://wa.me/919819803103"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 px-6 py-3.5 text-base font-semibold rounded-xl border border-emerald-500/30 transition-all duration-300 hover:scale-105"
-            >
-              <span>WhatsApp Chat</span>
+              Get In Touch
             </a>
           </div>
 
@@ -166,7 +157,7 @@ const Hero = () => {
               <Mail className="w-5 h-5" />
             </a>
             <a
-              href={`tel:${info.phone || "+919819803103"}`}
+              href={`tel:${info.phone ? info.phone.replace(/\s+/g, '') : "+971581702009"}`}
               className="p-3 glass-panel rounded-xl text-gray-300 hover:text-purple-400 hover:border-purple-500/50 transition-all duration-300 hover:scale-110 shadow-sm"
               aria-label="Phone Contact"
             >

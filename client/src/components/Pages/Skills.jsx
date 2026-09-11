@@ -11,11 +11,11 @@ import {
 import { fetchSkills } from "../../api/portfolioApi";
 import { skillsData as defaultSkills } from "../../data/portfolioData";
 
+import Loader from "../Loader.jsx";
+
 const Skills = () => {
-  const [skills, setSkills] = useState(() => {
-    const cached = localStorage.getItem("skills");
-    return cached ? JSON.parse(cached) : defaultSkills;
-  });
+  const [skills, setSkills] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
@@ -24,9 +24,14 @@ const Skills = () => {
         if (data) {
           setSkills(data);
           localStorage.setItem("skills", JSON.stringify(data));
+        } else {
+          setSkills(defaultSkills);
         }
       } catch (error) {
         console.error("Failed to fetch skills:", error);
+        setSkills(defaultSkills);
+      } finally {
+        setLoading(false);
       }
     };
     loadData();
@@ -58,7 +63,10 @@ const Skills = () => {
         </div>
 
         {/* Categories Grid */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        {loading ? (
+          <Loader message="Fetching skills & technical stack..." minHeight="min-h-[350px]" />
+        ) : (
+          <div className="grid lg:grid-cols-3 gap-8">
           
           {/* Card 1: Frontend Development */}
           <div className="glass-panel glass-panel-hover p-8 rounded-2xl border border-white/10 flex flex-col justify-between">
@@ -203,6 +211,7 @@ const Skills = () => {
           </div>
 
         </div>
+        )}
 
         {/* Tools & Workflow Badge Bar */}
         <div className="mt-14 glass-panel p-6 sm:p-8 rounded-2xl border border-white/10">

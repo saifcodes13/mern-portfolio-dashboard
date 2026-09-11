@@ -66,7 +66,7 @@ const Footer = () => {
                 Home
               </Link>
               <Link to="/services" className="hover:text-purple-400 transition-colors">
-                Services & Solutions
+                Technical Expertise
               </Link>
               <Link to="/projects" className="hover:text-purple-400 transition-colors">
                 Featured Projects
@@ -102,14 +102,14 @@ const Footer = () => {
               </div>
               <div>
                 <a
-                  href={`tel:${info.phone || "+919819803103"}`}
+                  href={`tel:${info.phone ? info.phone.replace(/\s+/g, '') : "+971581702009"}`}
                   className="hover:text-purple-400 transition-colors block"
                 >
-                  {info.phone || "+91 9819803103"}
+                  {info.phone || "+971 581702009"}
                 </a>
               </div>
               <div className="text-xs text-gray-500 pt-1">
-                {info.location || "Mumbai, India"}
+                {info.location || "Dubai, United Arab Emirates"}
               </div>
             </div>
 
@@ -147,7 +147,7 @@ const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-          <p>© {currentYear} Saif Tandel. Engineered with React.js & Tailwind CSS.</p>
+          <p>© {currentYear} Saif Tandel. </p>
           <button
             onClick={scrollToTop}
             className="flex items-center gap-1.5 text-gray-400 hover:text-purple-400 transition-colors"

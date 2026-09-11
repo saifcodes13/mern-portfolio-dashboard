@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { ExternalLink, Github, Layers, Rocket, Sparkles, CheckCircle2 } from "lucide-react";
 import { fetchProjects } from "../../api/portfolioApi";
 import { projects as defaultProjects } from "../../data/portfolioData";
+import Loader from "../Loader.jsx";
 
 const Projects = () => {
-  const [projectsList, setProjectsList] = useState(() => {
-    const cached = localStorage.getItem("projects");
-    return cached ? JSON.parse(cached) : defaultProjects;
-  });
+  const [projectsList, setProjectsList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
@@ -17,9 +16,14 @@ const Projects = () => {
         if (data && data.length > 0) {
           setProjectsList(data);
           localStorage.setItem("projects", JSON.stringify(data));
+        } else {
+          setProjectsList(defaultProjects);
         }
       } catch (error) {
         console.error("Failed to fetch projects:", error);
+        setProjectsList(defaultProjects);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -83,104 +87,111 @@ const Projects = () => {
         </div>
 
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
-          {filteredProjects.map((project, idx) => (
-            <div
-              key={project.id || idx}
-              className="glass-panel glass-panel-hover rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between group"
-            >
-              <div>
-                {/* Image Banner with Badge */}
-                <div className="relative aspect-[16/9] overflow-hidden bg-[#11111b]">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#08080c] via-transparent to-transparent opacity-80" />
+        {loading ? (
+          <Loader message="Fetching portfolio projects..." minHeight="min-h-[350px]" />
+        ) : (
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
+            {filteredProjects.map((project, idx) => (
+              <div
+                key={project.id || idx}
+                className="glass-panel glass-panel-hover rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between group"
+              >
+                <div>
+                  {/* Image Banner with Badge */}
+                  <div className="relative aspect-[16/9] overflow-hidden bg-[#11111b]">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#08080c] via-transparent to-transparent opacity-80" />
 
-                  {project.featured && (
-                    <span className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
-                      <Sparkles className="w-3 h-3" />
-                      Featured
-                    </span>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="p-6 sm:p-8 space-y-4">
-                  <h3 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors">
-                    {project.title}
-                  </h3>
-
-                  {project.tagline && (
-                    <p className="text-purple-400/90 text-xs sm:text-sm font-medium">
-                      {project.tagline}
-                    </p>
-                  )}
-
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  {/* Highlights if present */}
-                  {project.highlights && project.highlights.length > 0 && (
-                    <div className="pt-2 space-y-1.5">
-                      <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
-                        Key Highlights:
+                    {project.featured && (
+                      <span className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+                        <Sparkles className="w-3 h-3" />
+                        Featured
                       </span>
-                      {project.highlights.slice(0, 3).map((hl, hIdx) => (
-                        <div key={hIdx} className="flex items-start gap-2 text-xs text-gray-300">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-purple-400 flex-shrink-0 mt-0.5" />
-                          <span>{hl}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                    )}
+                  </div>
 
-                  {/* Tech Stack Pills */}
-                  <div className="pt-3 flex flex-wrap gap-2">
-                    {project.techStack &&
-                      project.techStack.map((tech, tIdx) => (
-                        <span
-                          key={tIdx}
-                          className="text-xs px-2.5 py-1 bg-purple-500/10 text-purple-300 rounded-md border border-purple-500/20 font-mono"
-                        >
-                          {tech}
+                  {/* Content */}
+                  <div className="p-6 sm:p-8 space-y-4">
+                    <h3 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors">
+                      {project.title}
+                    </h3>
+
+                    {project.tagline && (
+                      <p className="text-purple-400/90 text-xs sm:text-sm font-medium">
+                        {project.tagline}
+                      </p>
+                    )}
+
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      {project.description}
+                    </p>
+
+                    {/* Highlights if present */}
+                    {project.highlights && project.highlights.length > 0 && (
+                      <div className="pt-2 space-y-1.5">
+                        <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
+                          Key Highlights:
                         </span>
-                      ))}
+                        {project.highlights.slice(0, 3).map((hl, hIdx) => (
+                          <div key={hIdx} className="flex items-start gap-2 text-xs text-gray-300">
+                            <CheckCircle2 className="w-3.5 h-3.5 text-purple-400 flex-shrink-0 mt-0.5" />
+                            <span>{hl}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Tech Stack Pills - Displayed for Featured Projects only */}
+                    {project.featured && project.techStack && project.techStack.length > 0 && (
+                      <div className="pt-3 flex flex-wrap gap-2">
+                        {project.techStack.map((tech, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="text-xs px-2.5 py-1 bg-purple-500/10 text-purple-300 rounded-md border border-purple-500/20 font-mono"
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
 
-              {/* Action Buttons */}
-              <div className="p-6 sm:p-8 pt-0 flex gap-4">
-                {project.liveLink && project.liveLink !== "#" && (
-                  <a
-                    href={project.liveLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-2.5 px-4 rounded-xl text-sm font-semibold transition-all duration-300 shadow-md shadow-purple-600/20 hover:scale-[1.02]"
-                  >
-                    <ExternalLink className="w-4 h-4" />
-                    Live Demo
-                  </a>
-                )}
+                {/* Action Buttons */}
+                <div className="p-6 sm:p-8 pt-0 flex gap-4">
+                  {project.liveLink && project.liveLink !== "#" && (
+                    <a
+                      href={project.liveLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-2.5 px-4 rounded-xl text-sm font-semibold transition-all duration-300 shadow-md shadow-purple-600/20 hover:scale-[1.02]"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Live Demo
+                    </a>
+                  )}
 
-                <a
-                  href={project.githubLink || "https://github.com/saifcodes13"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 flex items-center justify-center gap-2 glass-panel hover:bg-white/10 text-gray-200 hover:text-white py-2.5 px-4 rounded-xl text-sm font-semibold border border-white/10 transition-all duration-300 hover:scale-[1.02]"
-                >
-                  <Github className="w-4 h-4 text-purple-400" />
-                  Source Code
-                </a>
+                  {project.featured && (
+                    <a
+                      href={project.githubLink || "https://github.com/saifcodes13"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-2 glass-panel hover:bg-white/10 text-gray-200 hover:text-white py-2.5 px-4 rounded-xl text-sm font-semibold border border-white/10 transition-all duration-300 hover:scale-[1.02]"
+                    >
+                      <Github className="w-4 h-4 text-purple-400" />
+                      Source Code
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
       </div>
     </section>

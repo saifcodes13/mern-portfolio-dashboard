@@ -13,6 +13,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { fetchBlogById, fetchBlogs } from "../../api/portfolioApi";
+import Loader from "../Loader.jsx";
 
 const BlogPost = () => {
   const { id } = useParams();
@@ -53,8 +54,8 @@ const BlogPost = () => {
 
   if (loading) {
     return (
-      <div className="pt-36 pb-24 min-h-screen bg-[#08080c] flex items-center justify-center text-gray-400">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-purple-500"></div>
+      <div className="pt-28 pb-24 min-h-screen bg-[#08080c]">
+        <Loader message="Loading article content..." minHeight="min-h-[500px]" />
       </div>
     );
   }

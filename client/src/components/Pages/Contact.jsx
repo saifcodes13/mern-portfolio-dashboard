@@ -216,15 +216,15 @@ const Contact = () => {
                     Phone / Call
                   </div>
                   <a
-                    href={`tel:${info.phone || "+919819803103"}`}
+                    href={`tel:${info.phone ? info.phone.replace(/\s+/g, '') : "+971581702009"}`}
                     className="text-white text-sm sm:text-base font-medium hover:text-purple-400 transition-colors"
                   >
-                    {info.phone || "+91 9819803103"}
+                    {info.phone || "+971 581702009"}
                   </a>
                 </div>
               </div>
               <button
-                onClick={() => handleCopy(info.phone || "+919819803103", "phone")}
+                onClick={() => handleCopy(info.phone || "+971 581702009", "phone")}
                 className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
                 title="Copy Phone"
               >
@@ -238,7 +238,7 @@ const Contact = () => {
 
             {/* WhatsApp Quick Action */}
             <a
-              href={info.whatsapp || "https://wa.me/919819803103"}
+              href={info.whatsapp || "https://wa.me/971581702009"}
               target="_blank"
               rel="noopener noreferrer"
               className="glass-panel glass-panel-hover p-5 rounded-2xl border border-emerald-500/30 flex items-center justify-between group"

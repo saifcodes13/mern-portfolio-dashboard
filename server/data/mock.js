@@ -3,7 +3,7 @@ export const personalInfo = {
   tagline:
     "Full Stack Developer building scalable web applications and real-world digital solutions",
   email: "saifcodes13@gmail.com",
-  phone: "+91 9819803103",
+  phone: "+971 581702009",
   location: "Available for Remote Work",
   github: "https://github.com/saifcodes13",
   linkedin: "https://linkedin.com/in/saif-tandel",

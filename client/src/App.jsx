@@ -1,8 +1,10 @@
+import { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import MainLayout from "./components/Layout.jsx";
+import Loader from "./components/Loader.jsx";
 
-// Public pages
+// Public pages (Eagerly loaded for instant render)
 import Home from "./components/Pages/Home.jsx";
 import Services from "./components/Services.jsx";
 import Experience from "./components/Experience.jsx";
@@ -13,19 +15,25 @@ import BlogPost from "./components/Pages/BlogPost.jsx";
 import Contact from "./components/Pages/Contact.jsx";
 import ErrorScreen from "./components/Pages/Error.jsx";
 
-// Admin
-import AdminLogin from "./components/Pages/AdminLogin.jsx";
-import AdminLayout from "./components/Admin/AdminLayout.jsx";
-import AdminDashboard from "./components/Admin/AdminDashboard.jsx";
-import AdminProjects from "./components/Admin/AdminProjects.jsx";
-import AdminSkills from "./components/Admin/AdminSkills.jsx";
-import AdminEditProject from "./components/Admin/AdminEditProject.jsx";
-import AdminEditSkill from "./components/Admin/AdminEditSkill.jsx";
-import AdminCreateProject from "./components/Admin/AdminCreateProject.jsx";
-import AdminBlogs from "./components/Admin/AdminBlogs.jsx";
-import AdminCreateBlog from "./components/Admin/AdminCreateBlog.jsx";
-import AdminEditBlog from "./components/Admin/AdminEditBlog.jsx";
-import ProtectedRoute from "./components/Admin/ProtectedRoute.jsx";
+// Admin pages (Code-Split / Lazy-loaded to keep public bundle light)
+const AdminLogin = lazy(() => import("./components/Pages/AdminLogin.jsx"));
+const AdminLayout = lazy(() => import("./components/Admin/AdminLayout.jsx"));
+const AdminDashboard = lazy(() => import("./components/Admin/AdminDashboard.jsx"));
+const AdminProjects = lazy(() => import("./components/Admin/AdminProjects.jsx"));
+const AdminSkills = lazy(() => import("./components/Admin/AdminSkills.jsx"));
+const AdminEditProject = lazy(() => import("./components/Admin/AdminEditProject.jsx"));
+const AdminEditSkill = lazy(() => import("./components/Admin/AdminEditSkill.jsx"));
+const AdminCreateProject = lazy(() => import("./components/Admin/AdminCreateProject.jsx"));
+const AdminBlogs = lazy(() => import("./components/Admin/AdminBlogs.jsx"));
+const AdminCreateBlog = lazy(() => import("./components/Admin/AdminCreateBlog.jsx"));
+const AdminEditBlog = lazy(() => import("./components/Admin/AdminEditBlog.jsx"));
+const ProtectedRoute = lazy(() => import("./components/Admin/ProtectedRoute.jsx"));
+
+const AdminSuspense = ({ children }) => (
+  <Suspense fallback={<Loader message="Loading Admin Panel..." minHeight="min-h-screen" />}>
+    {children}
+  </Suspense>
+);
 
 const router = createBrowserRouter([
   // PUBLIC SITE
@@ -48,16 +56,22 @@ const router = createBrowserRouter([
   // ADMIN LOGIN (NO LAYOUT)
   {
     path: "/admin/login",
-    element: <AdminLogin />,
+    element: (
+      <AdminSuspense>
+        <AdminLogin />
+      </AdminSuspense>
+    ),
   },
 
   // ADMIN PANEL
   {
     path: "/admin",
     element: (
-      <ProtectedRoute>
-        <AdminLayout />
-      </ProtectedRoute>
+      <AdminSuspense>
+        <ProtectedRoute>
+          <AdminLayout />
+        </ProtectedRoute>
+      </AdminSuspense>
     ),
     children: [
       {
