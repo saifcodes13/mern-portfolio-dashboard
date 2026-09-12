@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   ArrowRight,
   Download,
@@ -11,32 +11,12 @@ import {
   FileText,
   CheckCircle2,
 } from "lucide-react";
-import { fetchPersonalInfo } from "../api/portfolioApi";
 import { personalInfo as defaultInfo } from "../data/portfolioData";
+import { usePortfolio } from "../context/PortfolioContext.jsx";
 
 const Hero = () => {
-  const [personalInfo, setPersonalInfo] = useState(() => {
-    const cached = localStorage.getItem("personalInfo");
-    return cached ? JSON.parse(cached) : defaultInfo;
-  });
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchPersonalInfo();
-        if (data) {
-          setPersonalInfo(data);
-          localStorage.setItem("personalInfo", JSON.stringify(data));
-        }
-      } catch (error) {
-        console.error("Failed to fetch personal info:", error);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  const info = personalInfo || defaultInfo;
+  const { personalInfo: contextInfo } = usePortfolio();
+  const info = contextInfo || defaultInfo;
 
   return (
     <section

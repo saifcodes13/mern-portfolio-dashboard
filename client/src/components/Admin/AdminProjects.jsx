@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Plus, Pencil, Trash2, Undo2, CheckCircle2, XCircle, Save, Loader2 } from "lucide-react";
 import { fetchProjects, deleteProject, updateProject } from "../../api/portfolioApi";
 import { Link, useNavigate } from "react-router-dom";
+import { usePortfolio } from "../../context/PortfolioContext.jsx";
 
 const AdminProjects = () => {
+  const { refetchProjects } = usePortfolio();
   const [projects, setProjects] = useState(() => {
     const cached = localStorage.getItem("projects");
     return cached ? JSON.parse(cached) : null;
@@ -79,6 +81,7 @@ const AdminProjects = () => {
       setOriginalProjects(JSON.parse(JSON.stringify(projects)));
       localStorage.setItem("projects", JSON.stringify(projects));
       setHasChanges(false);
+      refetchProjects();
       setSuccessMsg(`Saved ${changedProjects.length} project status change(s) successfully!`);
       setTimeout(() => setSuccessMsg(null), 4000);
     } catch (err) {

@@ -1,32 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Github, Linkedin, Mail, Phone, Heart, ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
-import { fetchPersonalInfo } from "../api/portfolioApi";
 import { personalInfo as defaultInfo } from "../data/portfolioData";
+import { usePortfolio } from "../context/PortfolioContext.jsx";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const [personalInfo, setPersonalInfo] = useState(() => {
-    const cached = localStorage.getItem("personalInfo");
-    return cached ? JSON.parse(cached) : defaultInfo;
-  });
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchPersonalInfo();
-        if (data) {
-          setPersonalInfo(data);
-          localStorage.setItem("personalInfo", JSON.stringify(data));
-        }
-      } catch (error) {
-        console.error("Failed to fetch footer data", error);
-      }
-    };
-    loadData();
-  }, []);
-
-  const info = personalInfo || defaultInfo;
+  const { personalInfo: contextInfo } = usePortfolio();
+  const info = contextInfo || defaultInfo;
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

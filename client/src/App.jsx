@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import MainLayout from "./components/Layout.jsx";
 import Loader from "./components/Loader.jsx";
+import { PortfolioProvider } from "./context/PortfolioContext.jsx";
 
 // Public pages (Eagerly loaded for instant render)
 import Home from "./components/Pages/Home.jsx";
@@ -115,7 +116,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <PortfolioProvider>
+      <RouterProvider router={router} />
+    </PortfolioProvider>
+  );
 }
 
 export default App;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Code,
   Server,
@@ -8,34 +8,15 @@ import {
   Sparkles,
   CheckCircle2,
 } from "lucide-react";
-import { fetchSkills } from "../../api/portfolioApi";
 import { skillsData as defaultSkills } from "../../data/portfolioData";
-
 import Loader from "../Loader.jsx";
+import { usePortfolio } from "../../context/PortfolioContext.jsx";
 
 const Skills = () => {
-  const [skills, setSkills] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { skills: contextSkills, loading: contextLoading } = usePortfolio();
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchSkills();
-        if (data) {
-          setSkills(data);
-          localStorage.setItem("skills", JSON.stringify(data));
-        } else {
-          setSkills(defaultSkills);
-        }
-      } catch (error) {
-        console.error("Failed to fetch skills:", error);
-        setSkills(defaultSkills);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadData();
-  }, []);
+  const skills = contextSkills || defaultSkills;
+  const loading = contextLoading && !contextSkills;
 
   const s = skills || defaultSkills;
 

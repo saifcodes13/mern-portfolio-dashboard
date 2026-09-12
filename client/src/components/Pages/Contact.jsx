@@ -11,18 +11,17 @@ import {
   MessageSquare,
   Sparkles,
 } from "lucide-react";
-import { fetchPersonalInfo, createContact } from "../../api/portfolioApi";
+import { createContact } from "../../api/portfolioApi";
 import { personalInfo as defaultInfo } from "../../data/portfolioData";
+import { usePortfolio } from "../../context/PortfolioContext.jsx";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [statusMessage, setStatusMessage] = useState(null);
   const [copiedField, setCopiedField] = useState(null);
 
-  const [personalInfo, setPersonalInfo] = useState(() => {
-    const cached = localStorage.getItem("personalInfo");
-    return cached ? JSON.parse(cached) : defaultInfo;
-  });
+  const { personalInfo: contextInfo } = usePortfolio();
+  const info = contextInfo || defaultInfo;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -56,23 +55,6 @@ const Contact = () => {
     window.addEventListener("select-service", handleServiceSelect);
     return () => window.removeEventListener("select-service", handleServiceSelect);
   }, []);
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchPersonalInfo();
-        if (data) {
-          setPersonalInfo(data);
-          localStorage.setItem("personalInfo", JSON.stringify(data));
-        }
-      } catch (error) {
-        console.error("Failed to fetch personal info:", error);
-      }
-    };
-    loadData();
-  }, []);
-
-  const info = personalInfo || defaultInfo;
 
   const handleServiceClick = (svc) => {
     setSelectedService(svc);

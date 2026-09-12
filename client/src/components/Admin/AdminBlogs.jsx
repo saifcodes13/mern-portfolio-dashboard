@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Plus, Pencil, Trash2, Undo2, BookOpen, Eye, Clock, Tag, Power, PowerOff, CheckCircle2, XCircle, Save, Loader2 } from "lucide-react";
 import { fetchBlogs, deleteBlog, updateBlog } from "../../api/portfolioApi";
+import { usePortfolio } from "../../context/PortfolioContext.jsx";
 
 const AdminBlogs = () => {
+  const { refetchBlogs } = usePortfolio();
   const [blogs, setBlogs] = useState([]);
   const [originalBlogs, setOriginalBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,6 +88,7 @@ const AdminBlogs = () => {
 
       setOriginalBlogs(JSON.parse(JSON.stringify(blogs)));
       setHasChanges(false);
+      refetchBlogs();
       setSuccessMsg(`Saved ${changedBlogs.length} blog status change(s) successfully!`);
       setTimeout(() => setSuccessMsg(null), 4000);
     } catch (err) {

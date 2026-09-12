@@ -268,4 +268,15 @@ export const projects = [
     githubLink: "https://github.com/saifcodes13",
     featured: false,
   },
+  {
+    title: "The Red Carpets UAE",
+    description:
+      "Commercial web platform designed and built for The Red Carpets UAE, showcasing luxury custom flooring, carpet solutions, interactive catalog browsing, direct customer inquiry channels, and seamless user experience optimized for UAE market clients.",
+    techStack: ["React.js", "Tailwind CSS", "JavaScript", "Node.js", "SEO"],
+    image:
+      "https://res.cloudinary.com/ykwakbz9/image/upload/f_auto,q_auto,w_900/v1789203278/Screenshot_2026-09-12_at_12.53.45_PM.png",
+    liveLink: "https://www.theredcarpets.com/",
+    githubLink: "https://github.com/saifcodes13",
+    featured: false,
+  },
 ];

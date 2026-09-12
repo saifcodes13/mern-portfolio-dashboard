@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   BookOpen,
@@ -10,28 +10,16 @@ import {
   Tag,
   Share2,
 } from "lucide-react";
-import { fetchBlogs } from "../../api/portfolioApi";
 import Loader from "../Loader.jsx";
+import { usePortfolio } from "../../context/PortfolioContext.jsx";
 
 const Blogs = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { blogs: contextBlogs, loading: contextLoading } = usePortfolio();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
 
-  useEffect(() => {
-    const loadBlogs = async () => {
-      try {
-        const data = await fetchBlogs();
-        setBlogs(data || []);
-      } catch (error) {
-        console.error("Failed to fetch blogs:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadBlogs();
-  }, []);
+  const blogs = contextBlogs || [];
+  const loading = contextLoading && blogs.length === 0;
 
   const categories = [
     "All",

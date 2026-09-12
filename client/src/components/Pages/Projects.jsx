@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ExternalLink, Github, Layers, Rocket, Sparkles, CheckCircle2 } from "lucide-react";
-import { fetchProjects } from "../../api/portfolioApi";
 import { projects as defaultProjects } from "../../data/portfolioData";
 import Loader from "../Loader.jsx";
+import { usePortfolio } from "../../context/PortfolioContext.jsx";
 
 const Projects = () => {
-  const [projectsList, setProjectsList] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { projects: contextProjects, loading: contextLoading } = usePortfolio();
   const [filter, setFilter] = useState("all");
 
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const data = await fetchProjects();
-        if (data && data.length > 0) {
-          setProjectsList(data);
-          localStorage.setItem("projects", JSON.stringify(data));
-        } else {
-          setProjectsList(defaultProjects);
-        }
-      } catch (error) {
-        console.error("Failed to fetch projects:", error);
-        setProjectsList(defaultProjects);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
+  const projectsList = contextProjects && contextProjects.length > 0 ? contextProjects : defaultProjects;
+  const loading = contextLoading && projectsList.length === 0;
 
   const list = (projectsList && projectsList.length > 0 ? projectsList : defaultProjects)
     .filter((p) => p.active !== false);

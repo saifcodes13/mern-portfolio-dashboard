@@ -572,6 +572,31 @@ export const projects = [
     liveLink: "https://saeedconcepts.netlify.app/",
     githubLink: "https://github.com/saifcodes13",
   },
+  {
+    id: "red-carpets-uae",
+    title: "The Red Carpets UAE",
+    category: "frontend",
+    featured: false,
+    tagline: "Premium E-Commerce & Custom Carpet Solutions Platform in Dubai, UAE",
+    description:
+      "Commercial web platform designed and built for The Red Carpets UAE, showcasing luxury custom flooring, carpet solutions, interactive catalog browsing, direct customer inquiry channels, and seamless user experience optimized for UAE market clients.",
+    highlights: [
+      "High-conversion e-commerce catalog layout tailored for Dubai & UAE luxury flooring market",
+      "Custom responsive design with interactive product filtering & fast visual browsing",
+      "Direct WhatsApp & lead capture inquiry integration for immediate client consultations",
+    ],
+    techStack: [
+      "React.js",
+      "Tailwind CSS",
+      "JavaScript (ES6+)",
+      "Node.js",
+      "SEO",
+    ],
+    image:
+      "https://res.cloudinary.com/ykwakbz9/image/upload/f_auto,q_auto,w_900/v1789203278/Screenshot_2026-09-12_at_12.53.45_PM.png",
+    liveLink: "https://www.theredcarpets.com/",
+    githubLink: "https://github.com/saifcodes13",
+  },
 ];
 
 export const skillsData = {
