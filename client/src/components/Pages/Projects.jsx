@@ -1,181 +1,205 @@
-import React, { useState } from "react";
-import { ExternalLink, Github, Layers, Rocket, Sparkles, CheckCircle2 } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import { projects as defaultProjects } from "../../data/portfolioData";
 import Loader from "../Loader.jsx";
 import { usePortfolio } from "../../context/PortfolioContext.jsx";
+import { useQuote } from "../../hooks/useQuote";
+import {
+  CATEGORY_META,
+  CATEGORY_ORDER,
+  getCategory,
+  getInquiryService,
+  getLinks,
+  getProjectKey,
+} from "../../utils/projects";
+import Section, { SectionHeader } from "../ui/Section.jsx";
+import Reveal from "../ui/Reveal.jsx";
+import { ProjectCard, ShowcaseCard } from "../ProjectCard.jsx";
+
+const SHOWCASE_COUNT = 3;
+const HOME_GRID_COUNT = 6;
 
 const Projects = () => {
   const { projects: contextProjects, loading: contextLoading } = usePortfolio();
+  const isHome = useLocation().pathname === "/";
   const [filter, setFilter] = useState("all");
+  const requestQuote = useQuote();
 
-  const projectsList = contextProjects && contextProjects.length > 0 ? contextProjects : defaultProjects;
+  const projectsList =
+    contextProjects && contextProjects.length > 0 ? contextProjects : defaultProjects;
   const loading = contextLoading && projectsList.length === 0;
 
-  const list = (projectsList && projectsList.length > 0 ? projectsList : defaultProjects)
-    .filter((p) => p.active !== false);
+  const list = useMemo(
+    () => projectsList.filter((p) => p.active !== false),
+    [projectsList]
+  );
 
-  const filteredProjects = list.filter((p) => {
-    if (filter === "all") return true;
-    if (filter === "featured") return p.featured === true;
-    if (filter === "devops") return p.category === "devops" || (p.techStack && p.techStack.includes("Nginx"));
-    if (filter === "fullstack") return p.category === "fullstack" || (p.techStack && p.techStack.includes("Node.js"));
-    return true;
-  });
+  // Showcase = projects flagged `featured`, topped up from the rest of the list
+  const { showcase, rest } = useMemo(() => {
+    // Real client work leads: a live site with a real screenshot (not a stock
+    // photo). Within that, `featured` projects come first. Anything else only
+    // tops up the showcase when there isn't enough client work.
+    const isClientWork = (p) =>
+      Boolean(getLinks(p).live) && p.image && !/unsplash\.com/.test(p.image);
+    const client = list.filter(isClientWork);
+    const others = list.filter((p) => !isClientWork(p));
+    const byFeatured = (items) => [
+      ...items.filter((p) => p.featured === true),
+      ...items.filter((p) => p.featured !== true),
+    ];
+    const top = [...byFeatured(client), ...byFeatured(others)].slice(
+      0,
+      Math.min(SHOWCASE_COUNT, list.length)
+    );
+    return { showcase: top, rest: list.filter((p) => !top.includes(p)) };
+  }, [list]);
+
+  // Only offer filters for categories that actually exist in the data
+  const tabs = useMemo(() => {
+    const present = new Set(list.map(getCategory));
+    return [
+      { id: "all", label: "All Projects", count: list.length },
+      ...CATEGORY_ORDER.filter((id) => present.has(id)).map((id) => ({
+        id,
+        label: CATEGORY_META[id].label,
+        count: list.filter((p) => getCategory(p) === id).length,
+      })),
+    ];
+  }, [list]);
+
+  const handleQuote = (project) => requestQuote(getInquiryService(project));
+
+  const showAll = filter === "all";
+  const gridProjects = isHome
+    ? rest.slice(0, HOME_GRID_COUNT)
+    : showAll
+      ? rest
+      : list.filter((p) => getCategory(p) === filter);
+  const hiddenCount = isHome ? list.length - showcase.length - gridProjects.length : 0;
+
+  // heading levels: page/section title -> sub-heading -> card
+  const subHeading = isHome ? "h3" : "h2";
+  const SubHeading = subHeading;
+  const cardHeading = isHome ? "h4" : "h3";
 
   return (
-    <section id="projects" className="py-24 lg:py-32 bg-[#08080c] relative overflow-hidden">
-      {/* Background Lighting */}
-      <div className="absolute top-1/4 right-0 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-10 left-10 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
+    <Section id="projects" labelledBy="projects-heading" glow="right">
+      <SectionHeader
+        id="projects-heading"
+        eyebrow="Selected Work"
+        index="01"
+        title="Real products, live for"
+        highlight="real clients"
+        description="Booking platforms, CRMs, e-commerce stores and business websites, in production for clients in the UAE, India and beyond."
+      />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        
-        {/* Section Heading */}
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Rocket className="w-3.5 h-3.5" />
-            <span>Portfolio Showcase</span>
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-            Featured <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">Projects</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mt-4 mb-6 rounded-full" />
-          <p className="text-gray-400 text-base lg:text-lg max-w-2xl mx-auto">
-            Production web platforms, DevOps hosting infrastructure, and real-world business solutions developed using the MERN stack.
-          </p>
-        </div>
-
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-14">
-          {[
-            { id: "all", label: "All Projects" },
-            { id: "featured", label: "Featured" },
-            { id: "devops", label: "Cloud & DevOps" },
-            { id: "fullstack", label: "Full Stack MERN" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setFilter(tab.id)}
-              className={`px-5 py-2 rounded-xl text-sm font-semibold transition-all duration-300 cursor-pointer ${
-                filter === tab.id
-                  ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-600/30 scale-105"
-                  : "glass-panel text-gray-300 hover:text-white hover:border-purple-500/40"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Projects Grid */}
-        {loading ? (
-          <Loader message="Fetching portfolio projects..." minHeight="min-h-[350px]" />
-        ) : (
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-10">
-            {filteredProjects.map((project, idx) => (
+      {loading ? (
+        <Loader message="Fetching portfolio projects..." minHeight="min-h-[350px]" />
+      ) : (
+        <>
+          {/* Category filter (standalone /projects page) */}
+          {!isHome && tabs.length > 2 && (
+            <Reveal className="mb-12 lg:mb-16">
               <div
-                key={project.id || idx}
-                className="glass-panel glass-panel-hover rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between group"
+                role="group"
+                aria-label="Filter projects by category"
+                className="flex flex-wrap justify-center gap-2 sm:gap-3"
               >
-                <div>
-                  {/* Image Banner with Badge */}
-                  <div className="relative aspect-[16/9] overflow-hidden bg-[#11111b]">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#08080c] via-transparent to-transparent opacity-80" />
-
-                    {project.featured && (
-                      <span className="absolute top-4 right-4 bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        Featured
+                {tabs.map((tab) => {
+                  const active = filter === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => setFilter(tab.id)}
+                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold cursor-pointer transition-[background-color,border-color,color,transform] duration-300 ease-out border ${
+                        active
+                          ? "bg-purple-600 border-purple-400/60 text-white shadow-lg shadow-purple-600/30"
+                          : "bg-white/[0.04] border-white/10 text-gray-300 hover:text-white hover:border-purple-400/40"
+                      }`}
+                    >
+                      {tab.label}
+                      <span
+                        className={`text-[11px] font-mono px-1.5 py-0.5 rounded-md ${
+                          active ? "bg-white/20" : "bg-white/[0.06] text-gray-400"
+                        }`}
+                      >
+                        {tab.count}
                       </span>
-                    )}
-                  </div>
-
-                  {/* Content */}
-                  <div className="p-6 sm:p-8 space-y-4">
-                    <h3 className="text-2xl font-bold text-white group-hover:text-purple-300 transition-colors">
-                      {project.title}
-                    </h3>
-
-                    {project.tagline && (
-                      <p className="text-purple-400/90 text-xs sm:text-sm font-medium">
-                        {project.tagline}
-                      </p>
-                    )}
-
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      {project.description}
-                    </p>
-
-                    {/* Highlights if present */}
-                    {project.highlights && project.highlights.length > 0 && (
-                      <div className="pt-2 space-y-1.5">
-                        <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-2">
-                          Key Highlights:
-                        </span>
-                        {project.highlights.slice(0, 3).map((hl, hIdx) => (
-                          <div key={hIdx} className="flex items-start gap-2 text-xs text-gray-300">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-purple-400 flex-shrink-0 mt-0.5" />
-                            <span>{hl}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Tech Stack Pills - Displayed for Featured Projects only */}
-                    {project.featured && project.techStack && project.techStack.length > 0 && (
-                      <div className="pt-3 flex flex-wrap gap-2">
-                        {project.techStack.map((tech, tIdx) => (
-                          <span
-                            key={tIdx}
-                            className="text-xs px-2.5 py-1 bg-purple-500/10 text-purple-300 rounded-md border border-purple-500/20 font-mono"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="p-6 sm:p-8 pt-0 flex gap-4">
-                  {project.liveLink && project.liveLink !== "#" && (
-                    <a
-                      href={project.liveLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white py-2.5 px-4 rounded-xl text-sm font-semibold transition-all duration-300 shadow-md shadow-purple-600/20 hover:scale-[1.02]"
-                    >
-                      <ExternalLink className="w-4 h-4" />
-                      Live Demo
-                    </a>
-                  )}
-
-                  {project.featured && (
-                    <a
-                      href={project.githubLink || "https://github.com/saifcodes13"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex-1 flex items-center justify-center gap-2 glass-panel hover:bg-white/10 text-gray-200 hover:text-white py-2.5 px-4 rounded-xl text-sm font-semibold border border-white/10 transition-all duration-300 hover:scale-[1.02]"
-                    >
-                      <Github className="w-4 h-4 text-purple-400" />
-                      Source Code
-                    </a>
-                  )}
-                </div>
+                    </button>
+                  );
+                })}
               </div>
-            ))}
-          </div>
-        )}
+            </Reveal>
+          )}
 
-      </div>
-    </section>
+          {/* Featured showcase */}
+          {(isHome || showAll) && showcase.length > 0 && (
+            <div className="space-y-16 lg:space-y-28">
+              {showcase.map((project, idx) => (
+                <Reveal key={getProjectKey(project, idx)} variant={idx % 2 === 1 ? "right" : "left"}>
+                  <ShowcaseCard
+                    project={project}
+                    index={idx}
+                    onQuote={handleQuote}
+                    headingLevel={subHeading}
+                  />
+                </Reveal>
+              ))}
+            </div>
+          )}
+
+          {/* Remaining projects */}
+          {gridProjects.length > 0 && (
+            <div className={(isHome || showAll) && showcase.length > 0 ? "mt-20 lg:mt-32" : ""}>
+              {(isHome || showAll) && showcase.length > 0 && (
+                <Reveal className="flex items-end justify-between gap-4 mb-8">
+                  <SubHeading className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                    More Projects
+                  </SubHeading>
+                  {isHome && (
+                    <Link
+                      to="/projects"
+                      className="group hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-purple-300 hover:text-white transition-colors duration-300"
+                    >
+                      View all {list.length} projects
+                      <ArrowRight
+                        className="w-4 h-4 transition-transform duration-300 ease-out group-hover:translate-x-1"
+                        aria-hidden="true"
+                      />
+                    </Link>
+                  )}
+                </Reveal>
+              )}
+
+              {/* key on filter so cards re-run their reveal when the filter changes */}
+              <div key={filter} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
+                {gridProjects.map((project, idx) => (
+                  <Reveal key={getProjectKey(project, idx)} delay={(idx % 3) * 90} className="h-full">
+                    <ProjectCard
+                      project={project}
+                      onQuote={handleQuote}
+                      headingLevel={(isHome || showAll) && showcase.length > 0 ? cardHeading : subHeading}
+                    />
+                  </Reveal>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {isHome && (
+            <Reveal className="mt-12 text-center">
+              <Link to="/projects" className="btn btn-ghost">
+                {hiddenCount > 0 ? `View all ${list.length} projects` : "Browse all projects"}
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+            </Reveal>
+          )}
+        </>
+      )}
+    </Section>
   );
 };
 

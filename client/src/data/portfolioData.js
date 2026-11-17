@@ -4,7 +4,7 @@ export const personalInfo = {
   subRole: "Full Stack Engineer | Cloud & DevOps Enthusiast",
   tagline:
     "React.js and MERN Stack Developer with hands-on experience building scalable web applications and business solutions using React.js, Node.js, Express.js, MongoDB, and MySQL.",
-  availability: "Available for New Opportunities",
+  availability: "Available for New Projects",
   email: "saifcodes13@gmail.com",
   phone: "+971 581702009",
   phoneDisplay: "+971 581702009",
@@ -173,7 +173,7 @@ export const projects = [
     id: "bookeventz",
     title: "BookEventz - Event & Venue Booking Platform",
     category: "fullstack",
-    featured: false,
+    featured: true,
     tagline: "Enterprise venue discovery, banquet booking & CRM lead management platform",
     description:
       "An enterprise event planning and venue discovery platform connecting users with banquet halls, event planners, and catering vendors. Features real-time venue search, custom inquiry pipelines, AWS S3 file management, and modular CRM integration.",
@@ -284,7 +284,7 @@ export const projects = [
     id: "thunga-hospital",
     title: "Thunga Hospital - Healthcare & Doctor Appointment Portal",
     category: "fullstack",
-    featured: false,
+    featured: true,
     tagline: "Multispecialty healthcare web platform with online doctor appointment booking & patient portal",
     description:
       "A responsive healthcare website and patient appointment booking portal developed for Thunga Hospital (multispecialty healthcare group in Mumbai). Features doctor schedules, specialty department catalogs, online appointment requests, health checkup package listings, and emergency hotline integration.",
@@ -336,7 +336,7 @@ export const projects = [
     id: "karekut",
     title: "Kare Kut - Premium Salon & Grooming Booking Platform",
     category: "fullstack",
-    featured: false,
+    featured: true,
     tagline: "Luxury gents salon grooming portal with online slot booking & customer portal",
     description:
       "A modern web application and online appointment booking portal engineered for Kare Kut (luxury gents salon & grooming brand in Dubai). Features service catalogs, real-time barber appointment scheduling, customer portal login, and gallery showcase.",
@@ -465,7 +465,7 @@ export const projects = [
     id: "cloudnest",
     title: "CloudNest - Self-Hosted Cloud Platform",
     category: "devops",
-    featured: true,
+    featured: false,
     tagline: "Netlify/Vercel-inspired static site deployment platform with custom subdomains",
     description:
       "A self-hosted hosting platform inspired by Netlify/Vercel that enables users to upload and deploy static websites with automated deployment, custom subdomains, and live dashboard management.",
@@ -496,7 +496,7 @@ export const projects = [
     id: "medfinder",
     title: "Medicine Availability Finder (MedFinder)",
     category: "fullstack",
-    featured: true,
+    featured: false,
     tagline: "Real-time community platform to locate medicines in nearby pharmacies",
     description:
       "A responsive web application that helps patients and local communities quickly locate nearby pharmacies and check medicine availability in real-time through an intuitive, user-friendly interface.",
@@ -523,7 +523,7 @@ export const projects = [
     id: "ecommerce",
     title: "Full-Featured E-Commerce Store",
     category: "fullstack",
-    featured: true,
+    featured: false,
     tagline: "Modern online store with cart, PayPal integration, and admin portal",
     description:
       "A fully functional MERN e-commerce platform with secure user authentication, product catalog filtering, cart state management with Redux Toolkit, PayPal checkout, and an administrative inventory dashboard.",
@@ -644,85 +644,85 @@ export const skillsData = {
 export const servicesData = [
   {
     id: "fullstack-dev",
-    title: "Full-Stack Web Development",
+    title: "Web Apps & Platforms",
     icon: "code",
-    badge: "Core Expertise",
+    badge: "Most requested",
     description:
-      "Developing end-to-end MERN applications with reactive React frontend architecture, secure Express backends, and robust database models.",
+      "Booking systems, marketplaces and customer portals built around the way your business actually works.",
     deliverables: [
-      "Custom React.js & Next.js frontend web applications",
-      "RESTful API server architecture & JWT authentication",
-      "Relational (MySQL) and NoSQL (MongoDB) database design",
+      "Custom booking, ordering and payment flows",
+      "An admin panel so you can manage everything yourself",
+      "Secure logins and role-based access for your team",
     ],
     tech: ["React.js", "Node.js", "Express.js", "MongoDB", "MySQL"],
   },
   {
     id: "crm-dashboards",
-    title: "Enterprise CRM & Portals",
+    title: "CRMs & Dashboards",
     icon: "layout",
-    badge: "Architecture",
+    badge: "For teams",
     description:
-      "Engineering internal management tools, lead pipelines, role-gated portals, and quotation workflows.",
+      "Replace scattered spreadsheets with one system for leads, quotes and sales that your whole team can use.",
     deliverables: [
-      "Modular CRM dashboards with interactive data tables",
-      "Role-based authorization (JWT) for multi-tier access",
-      "AWS S3 cloud storage integration for documents & media",
+      "Lead pipelines and quotation workflows",
+      "Different access levels for managers and staff",
+      "Documents and media stored securely in the cloud",
     ],
     tech: ["React.js", "Node.js", "MySQL", "AWS S3", "JWT"],
   },
   {
-    id: "api-integrations",
-    title: "API Architecture & Services",
-    icon: "server",
-    badge: "Backend",
-    description:
-      "Designing high-performance backend microservices, payment gateway integrations, and automated notifications.",
-    deliverables: [
-      "Production-grade RESTful API endpoints & Swagger docs",
-      "Payment gateway integration (PayPal, Stripe)",
-      "Automated EmailJS & third-party webhook listeners",
-    ],
-    tech: ["Node.js", "Express.js", "REST APIs", "PayPal API", "EmailJS"],
-  },
-  {
     id: "uiux-websites",
-    title: "Frontend Engineering & UI/UX",
+    title: "Business Websites & Landing Pages",
     icon: "sparkles",
-    badge: "Frontend",
+    badge: "Lead generation",
     description:
-      "Translating Figma design systems into pixel-perfect, accessible React components with Lighthouse scores of 95+.",
+      "Fast, mobile-first websites designed to turn visitors into enquiries, not just look good.",
     deliverables: [
-      "Pixel-perfect translation from Figma design systems",
-      "Lighthouse 95+ speed, accessibility & SEO optimization",
-      "Modern Tailwind CSS layouts with smooth micro-animations",
+      "Built for speed and search engines from day one",
+      "WhatsApp, call and form enquiries built in",
+      "Pixel-perfect builds from your Figma designs",
     ],
     tech: ["React.js", "Tailwind CSS", "HTML5", "CSS3", "Figma"],
   },
   {
-    id: "cloud-devops",
-    title: "Cloud Infrastructure & DevOps",
-    icon: "cloud",
-    badge: "DevOps",
+    id: "api-integrations",
+    title: "Payments, APIs & Integrations",
+    icon: "server",
+    badge: "Automation",
     description:
-      "Configuring Linux servers, Nginx reverse proxies, self-hosted CI/CD pipelines, and secure Cloudflare tunnels.",
+      "Connect payments, email and the tools you already use, so routine work happens automatically.",
     deliverables: [
-      "Nginx reverse proxy & Cloudflare Tunnel ingress",
-      "Automated CI/CD workflows using GitHub Actions",
-      "PM2 process management & Ubuntu server configuration",
+      "Online payments with PayPal and Stripe",
+      "Automatic email notifications and webhooks",
+      "Clean, documented APIs your other systems can use",
+    ],
+    tech: ["Node.js", "Express.js", "REST APIs", "PayPal API", "EmailJS"],
+  },
+  {
+    id: "cloud-devops",
+    title: "Hosting, Deployment & DevOps",
+    icon: "cloud",
+    badge: "Launch",
+    description:
+      "Your product live on reliable infrastructure, with automatic deployments so updates ship safely.",
+    deliverables: [
+      "Server setup, domains and secure access",
+      "Automatic deployments on every update",
+      "Monitoring so your site stays online",
     ],
     tech: ["Nginx", "Cloudflare", "GitHub Actions", "PM2", "Linux"],
   },
   {
     id: "optimization-maintenance",
-    title: "Performance & Database Tuning",
+    title: "Speed, Fixes & Maintenance",
     icon: "wrench",
-    badge: "Optimization",
+    badge: "Existing sites",
     description:
-      "Auditing frontend bundle sizes, optimizing slow database queries, and indexing high-traffic database collections.",
+      "Slow or buggy site? I find the bottlenecks, fix them and keep everything running smoothly.",
     deliverables: [
-      "MySQL & MongoDB query indexing for low latency",
-      "Code splitting & React component reusability",
-      "System maintenance, security audits, and bug fixes",
+      "Faster page loads and database queries",
+      "Bug fixes and security checks",
+      "Ongoing maintenance for your existing site",
     ],
     tech: ["MySQL", "MongoDB", "React.js", "Node.js", "Profiler"],
   },
@@ -731,27 +731,27 @@ export const servicesData = [
 export const workflowSteps = [
   {
     step: "01",
-    title: "Discovery & Architecture",
+    title: "Discovery Call",
     description:
-      "We clarify your business goals, target audience, and feature roadmap to architect the ideal technical foundation and database schema.",
+      "A free call to understand your business, your customers and what you need. You get a clear scope, a timeline and a fixed quote.",
   },
   {
     step: "02",
-    title: "UI/UX & Prototyping",
+    title: "Design & Prototype",
     description:
-      "Creating modern, user-centric interfaces from Figma prototypes, establishing reusable design tokens and responsive layouts.",
+      "You see how it will look and work before any code is written, so changes are quick and cheap.",
   },
   {
     step: "03",
-    title: "Full-Stack Development",
+    title: "Build & Weekly Demos",
     description:
-      "Building modular React components, clean RESTful APIs, secure authentication, and optimized database queries with regular sprint demos.",
+      "I build in short sprints and show you working progress regularly, so there are no surprises at the end.",
   },
   {
     step: "04",
-    title: "Testing, Deployment & Handoff",
+    title: "Launch & Handover",
     description:
-      "Rigorous cross-device testing, CI/CD automated deployment, server setup, and clean documentation handoff for long-term success.",
+      "Tested on every device, deployed to your domain and handed over with documentation, so you fully own it.",
   },
 ];
 

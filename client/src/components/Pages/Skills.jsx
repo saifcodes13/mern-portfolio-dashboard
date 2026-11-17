@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Code,
   Server,
@@ -11,6 +10,8 @@ import {
 import { skillsData as defaultSkills } from "../../data/portfolioData";
 import Loader from "../Loader.jsx";
 import { usePortfolio } from "../../context/PortfolioContext.jsx";
+import Section, { SectionHeader } from "../ui/Section.jsx";
+import Reveal from "../ui/Reveal.jsx";
 
 const Skills = () => {
   const { skills: contextSkills, loading: contextLoading } = usePortfolio();
@@ -21,27 +22,15 @@ const Skills = () => {
   const s = skills || defaultSkills;
 
   return (
-    <section id="skills" className="py-24 lg:py-32 bg-[#0c0c14] relative overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-10 w-[400px] h-[400px] bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Technical Capabilities</span>
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-            Skills & <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">Expertise</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mt-4 mb-6 rounded-full" />
-          <p className="text-gray-400 text-base lg:text-lg max-w-2xl mx-auto">
-            Comprehensive full-stack toolset honed through enterprise CRM development, cloud microservices, and modern UI engineering.
-          </p>
-        </div>
+    <Section id="skills" labelledBy="skills-heading" glow="right">
+      <SectionHeader
+        id="skills-heading"
+        eyebrow="Tech Stack"
+        index="05"
+        title="The tools behind"
+        highlight="every build"
+        description="A full-stack toolset proven in production: enterprise CRMs, booking platforms, cloud deployments, and modern UI engineering."
+      />
 
         {/* Categories Grid */}
         {loading ? (
@@ -50,7 +39,7 @@ const Skills = () => {
           <div className="grid lg:grid-cols-3 gap-8">
           
           {/* Card 1: Frontend Development */}
-          <div className="glass-panel glass-panel-hover p-8 rounded-2xl border border-white/10 flex flex-col justify-between">
+          <Reveal delay={0} className="h-full"><div className="surface lift h-full p-6 sm:p-8 rounded-2xl flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20">
@@ -76,7 +65,7 @@ const Skills = () => {
                     </div>
                     <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-purple-600 to-indigo-400 rounded-full transition-all duration-1000"
+                        className="h-full bg-gradient-to-r from-purple-600 to-indigo-400 rounded-full"
                         style={{ width: `${skill.level || 90}%` }}
                       />
                     </div>
@@ -88,10 +77,10 @@ const Skills = () => {
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-gray-400">
               Specialized in SPAs, Redux Toolkit, and Tailwind component design systems.
             </div>
-          </div>
+          </div></Reveal>
 
           {/* Card 2: Backend & Databases */}
-          <div className="glass-panel glass-panel-hover p-8 rounded-2xl border border-white/10 flex flex-col justify-between">
+          <Reveal delay={100} className="h-full"><div className="surface lift h-full p-6 sm:p-8 rounded-2xl flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
@@ -117,7 +106,7 @@ const Skills = () => {
                     </div>
                     <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-gradient-to-r from-indigo-500 to-purple-400 rounded-full transition-all duration-1000"
+                        className="h-full bg-gradient-to-r from-indigo-500 to-purple-400 rounded-full"
                         style={{ width: `${skill.level || 88}%` }}
                       />
                     </div>
@@ -144,10 +133,10 @@ const Skills = () => {
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-gray-400">
               RESTful APIs, JWT Auth, Schema indexing, and complex query optimization.
             </div>
-          </div>
+          </div></Reveal>
 
           {/* Card 3: Cloud, DevOps & Hosting */}
-          <div className="glass-panel glass-panel-hover p-8 rounded-2xl border border-white/10 flex flex-col justify-between">
+          <Reveal delay={200} className="h-full"><div className="surface lift h-full p-6 sm:p-8 rounded-2xl flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-3 rounded-xl bg-violet-500/10 text-violet-400 border border-violet-500/20">
@@ -189,13 +178,13 @@ const Skills = () => {
             <div className="mt-6 pt-4 border-t border-white/5 text-xs text-gray-400">
               CI/CD automation, reverse proxying, secure tunnel ingress, and S3 media storage.
             </div>
-          </div>
+          </div></Reveal>
 
         </div>
         )}
 
         {/* Tools & Workflow Badge Bar */}
-        <div className="mt-14 glass-panel p-6 sm:p-8 rounded-2xl border border-white/10">
+        <Reveal className="mt-10 lg:mt-14 surface p-6 sm:p-8 rounded-2xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-lg bg-purple-500/10 text-purple-400">
@@ -238,10 +227,8 @@ const Skills = () => {
                 </span>
               ))}
           </div>
-        </div>
-
-      </div>
-    </section>
+        </Reveal>
+    </Section>
   );
 };
 

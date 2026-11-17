@@ -1,38 +1,44 @@
 import ContactModel from "../models/contact.model.js";
 
-
 /**
- * @desc		Create contact
+ * @desc		Create contact (lead)
  * @route		POST /api/contact
  * @access	    Public
  */
+const createContact = async (req, res) => {
+  const { name, email, message, subject, service } = req.body;
 
-const createContact = async( req, res) => {
-    const {name, email, message} = req.body
-    
-    if(!name || !email || !message){
-        res.status(400).json("All feilds are required")
-    }
-    
+  if (!name || !email || !message) {
+    return res.status(400).json({ message: "Name, email and message are required" });
+  }
 
+  try {
     const contact = await ContactModel.create({
-        name,
-        email,
-        message
-    })
+      name,
+      email,
+      message,
+      subject,
+      service,
+    });
 
-    res.status(202).json({
-        message: "Message saved succesfully",
-        contact
-    })
-}
+    return res.status(201).json({
+      message: "Message saved successfully",
+      contact,
+    });
+  } catch (error) {
+    console.error("Failed to save contact:", error.message);
+    return res.status(500).json({ message: "Failed to save message" });
+  }
+};
 
-const getAllContacts = async(req, res) => {
-    const contacts = await ContactModel.find()
-    res.status(200).json(contacts)
-}
+/**
+ * @desc		Get all contacts (leads)
+ * @route		GET /api/contact
+ * @access	    Private (admin)
+ */
+const getAllContacts = async (req, res) => {
+  const contacts = await ContactModel.find().sort({ createdAt: -1 });
+  res.status(200).json(contacts);
+};
 
-export{
-    createContact,
-    getAllContacts
-}
+export { createContact, getAllContacts };

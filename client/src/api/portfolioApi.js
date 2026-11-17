@@ -166,14 +166,57 @@ export const fetchPersonalInfo = async () => {
 };
 
 //  CONTACT 
+const sendLeadEmail = async (data) => {
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  if (!serviceId || !templateId || !publicKey) {
+    throw new Error("EmailJS is not configured");
+  }
+
+  const { default: emailjs } = await import("@emailjs/browser");
+  // Several aliases so common EmailJS template variable names all resolve
+  return emailjs.send(
+    serviceId,
+    templateId,
+    {
+      name: data.name,
+      from_name: data.name,
+      email: data.email,
+      from_email: data.email,
+      reply_to: data.email,
+      subject: data.subject || `New inquiry: ${data.service || "General"}`,
+      service: data.service || "Not specified",
+      message: data.message,
+    },
+    { publicKey }
+  );
+};
+
+/*
+  Leads are delivered via two independent channels:
+  - EmailJS: lands straight in the inbox, unaffected by backend cold starts
+  - Backend: persisted in MongoDB (longer timeout to survive a cold start)
+  Resolves as soon as either channel succeeds (the other keeps going in the
+  background); throws only if both fail, so the visitor is never shown a
+  false "sent" message.
+*/
 export const createContact = async (data) => {
+  const channels = [
+    sendLeadEmail(data),
+    API.post("/api/contact", data, { timeout: 60000 }),
+  ].map((p, i) =>
+    p.catch((err) => {
+      console.warn(`Lead delivery via ${i === 0 ? "EmailJS" : "API"} failed:`, err?.message || err);
+      throw err;
+    })
+  );
+
   try {
-    const res = await API.post("/api/contact", data);
-    return res.data;
-  } catch (error) {
-    console.warn("API contact POST failed, handling locally/email:", error.message);
-    // If backend is down, return success so user contact attempt isn't lost
-    return { success: true, message: "Message received" };
+    await Promise.any(channels);
+    return { success: true };
+  } catch {
+    throw new Error("Message could not be delivered");
   }
 };
 

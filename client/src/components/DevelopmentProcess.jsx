@@ -1,67 +1,59 @@
-import React from "react";
 import { workflowSteps } from "../data/portfolioData";
-import { GitPullRequest, Search, Palette, Code2, Rocket } from "lucide-react";
+import { Search, Palette, Code2, Rocket } from "lucide-react";
+import Section, { SectionHeader } from "./ui/Section.jsx";
+import Reveal from "./ui/Reveal.jsx";
 
 const stepIcons = [Search, Palette, Code2, Rocket];
 
 const DevelopmentProcess = () => {
   return (
-    <section className="py-20 lg:py-28 bg-[#08080c] relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <GitPullRequest className="w-3.5 h-3.5" />
-            <span>Structured Client Workflow</span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-            How I <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">Deliver Projects</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mt-4 mb-6 rounded-full" />
-          <p className="text-gray-400 text-base lg:text-lg max-w-2xl mx-auto">
-            A battle-tested 4-step engineering process ensuring transparency, rapid feedback, and on-time production launches.
-          </p>
-        </div>
+    <Section id="process" labelledBy="process-heading">
+      <SectionHeader
+        id="process-heading"
+        eyebrow="Process"
+        index="03"
+        title="A clear path from"
+        highlight="idea to launch"
+        description="Four steps that keep you in the loop: a fixed scope up front, regular demos while I build, and a launch date you can plan around."
+      />
 
-        {/* 4 Steps Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {workflowSteps.map((step, idx) => {
-            const IconComponent = stepIcons[idx] || Code2;
-            return (
-              <div
-                key={idx}
-                className="glass-panel glass-panel-hover p-6 rounded-2xl border border-white/10 flex flex-col justify-between relative group"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-5">
-                    <span className="text-3xl font-black font-mono text-purple-500/30 group-hover:text-purple-400/70 transition-colors">
-                      {step.step}
-                    </span>
-                    <div className="p-2.5 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:scale-110 transition-transform">
-                      <IconComponent className="w-5 h-5" />
-                    </div>
+      <div className="relative">
+        {/* connecting line (desktop) */}
+        <div
+          aria-hidden="true"
+          className="hidden lg:block absolute top-[3.25rem] left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-purple-500/0 via-purple-400/40 to-purple-500/0"
+        />
+      <ol className="relative grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {workflowSteps.map((step, idx) => {
+          const IconComponent = stepIcons[idx] || Code2;
+          return (
+            <Reveal as="li" key={step.step} delay={idx * 110} className="relative h-full">
+              <div className="surface lift h-full p-6 rounded-2xl group">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="relative p-3 rounded-xl bg-[#14121f] text-purple-300 border border-purple-500/25 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110">
+                    <IconComponent className="w-5 h-5" aria-hidden="true" />
                   </div>
-
-                  <h3 className="text-lg font-bold text-white mb-2.5 group-hover:text-purple-300 transition-colors">
-                    {step.title}
-                  </h3>
-
-                  <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">
-                    {step.description}
-                  </p>
+                  <span
+                    aria-hidden="true"
+                    className="text-4xl font-bold font-mono text-white/10 transition-colors duration-500 group-hover:text-purple-400/50"
+                  >
+                    {step.step}
+                  </span>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/5 flex items-center gap-1 text-[11px] font-mono text-purple-400">
-                  <span>Phase {step.step} Complete</span>
-                </div>
+                <h3 className="text-lg font-bold text-white mb-2.5 tracking-tight">
+                  <span className="sr-only">Step {Number(step.step)}: </span>
+                  {step.title}
+                </h3>
+
+                <p className="text-gray-400 text-sm leading-relaxed">{step.description}</p>
               </div>
-            );
-          })}
-        </div>
-
+            </Reveal>
+          );
+        })}
+      </ol>
       </div>
-    </section>
+    </Section>
   );
 };
 

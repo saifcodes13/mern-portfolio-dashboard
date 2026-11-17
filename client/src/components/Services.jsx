@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Code,
   Layout,
@@ -8,10 +7,21 @@ import {
   Wrench,
   CheckCircle2,
   ArrowRight,
-  Briefcase,
   Layers,
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { servicesData } from "../data/portfolioData";
+import Section, { SectionHeader } from "./ui/Section.jsx";
+import Reveal from "./ui/Reveal.jsx";
+
+// Maps each service card to the matching option in the contact form
+const serviceToInquiry = {
+  "fullstack-dev": "Full-Stack Web App",
+  "crm-dashboards": "CRM & Dashboard",
+  "api-integrations": "REST API & Backend",
+  "uiux-websites": "Landing Page & UI/UX",
+  "cloud-devops": "Cloud & DevOps",
+};
 
 const iconMap = {
   code: Code,
@@ -23,99 +33,82 @@ const iconMap = {
 };
 
 const Services = () => {
-  const handleInquire = (serviceTitle) => {
+  const navigate = useNavigate();
+
+  const handleInquire = (service) => {
+    const inquiry = serviceToInquiry[service.id] || "Something else";
     const contactSection = document.getElementById("contact");
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: "smooth" });
       // Custom event to pre-select service in Contact form
       window.dispatchEvent(
-        new CustomEvent("select-service", { detail: { service: serviceTitle } })
+        new CustomEvent("select-service", { detail: { service: inquiry } })
       );
+    } else {
+      // Standalone /services page: no contact section to scroll to
+      navigate(`/contact?service=${encodeURIComponent(inquiry)}`);
     }
   };
 
   return (
-    <section id="services" className="py-24 lg:py-32 bg-[#0a0a10] relative overflow-hidden">
-      {/* Ambient background glows */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+    <Section id="services" labelledBy="services-heading" glow="left">
+      <SectionHeader
+        id="services-heading"
+        eyebrow="Services"
+        index="02"
+        title="Everything you need to"
+        highlight="launch and grow online"
+        description="From first idea to live product. One developer handles design, build and deployment, so nothing gets lost between teams."
+      />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        
-        {/* Section Header */}
-        <div className="text-center mb-14 lg:mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>Technical Capabilities</span>
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-            Engineering <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">Capabilities</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mt-4 mb-6 rounded-full" />
-          <p className="text-gray-400 text-base lg:text-lg max-w-2xl mx-auto">
-            Core software engineering proficiencies across full-stack web development, system architecture, API design, and cloud deployments.
-          </p>
-        </div>
+      {/* Numbered service rows */}
+      <ul className="border-t border-white/10">
+        {servicesData.map((service, idx) => {
+          const IconComponent = iconMap[service.icon] || Layers;
+          return (
+            <Reveal as="li" key={service.id} delay={Math.min(idx, 3) * 70}>
+              <article className="service-row group">
+                <span className="service-row__index" aria-hidden="true">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
 
-        {/* Services Grid (3x2) */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {servicesData.map((service) => {
-            const IconComponent = iconMap[service.icon] || Layers;
-            return (
-              <div
-                key={service.id}
-                className="glass-panel glass-panel-hover p-7 rounded-2xl border border-white/10 flex flex-col justify-between group transition-all duration-300"
-              >
-                <div>
-                  {/* Icon & Badge Row */}
-                  <div className="flex items-center justify-between gap-4 mb-5">
-                    <div className="p-3 rounded-xl bg-purple-500/10 text-purple-400 border border-purple-500/20 group-hover:bg-purple-600/20 group-hover:text-purple-300 transition-colors">
-                      <IconComponent className="w-5 h-5" />
-                    </div>
-                    {service.badge && (
-                      <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-purple-300">
-                        {service.badge}
-                      </span>
-                    )}
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+                    <IconComponent className="w-5 h-5 text-purple-300 shrink-0" aria-hidden="true" />
+                    <h3 className="text-xl sm:text-2xl lg:text-[1.75rem] font-semibold text-white tracking-[-0.02em] leading-tight">
+                      {service.title}
+                    </h3>
+                    {service.badge && <span className="pill text-purple-200">{service.badge}</span>}
                   </div>
-
-                  <h3 className="text-lg font-bold text-white mb-2 group-hover:text-purple-300 transition-colors">
-                    {service.title}
-                  </h3>
-
-                  <p className="text-gray-300 text-xs sm:text-sm leading-relaxed mb-5">
+                  <p className="mt-3 text-gray-400 text-[0.9375rem] leading-relaxed max-w-xl">
                     {service.description}
                   </p>
-
-                  {/* Bullet Points */}
-                  <div className="space-y-2 mb-6">
-                    {service.deliverables.map((item, idx) => (
-                      <div key={idx} className="flex items-start gap-2 text-xs text-gray-300">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-purple-400 flex-shrink-0 mt-0.5" />
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
                 </div>
 
-                {/* Tech Stack Pills */}
-                <div className="flex flex-wrap gap-1.5 pt-3 border-t border-white/5">
-                  {service.tech.map((t, idx) => (
-                    <span
-                      key={idx}
-                      className="text-[11px] px-2.5 py-0.5 rounded-md bg-purple-500/10 text-purple-300 border border-purple-500/20 font-mono"
-                    >
-                      {t}
-                    </span>
+                <ul className="space-y-2">
+                  {service.deliverables.map((item, dIdx) => (
+                    <li key={dIdx} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle2 className="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" aria-hidden="true" />
+                      <span>{item}</span>
+                    </li>
                   ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+                </ul>
 
-      </div>
-    </section>
+                <button
+                  type="button"
+                  onClick={() => handleInquire(service)}
+                  aria-label={`Get a quote for ${service.title}`}
+                  className="service-row__cta"
+                >
+                  <span className="lg:sr-only">Get a Quote</span>
+                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                </button>
+              </article>
+            </Reveal>
+          );
+        })}
+      </ul>
+    </Section>
   );
 };
 

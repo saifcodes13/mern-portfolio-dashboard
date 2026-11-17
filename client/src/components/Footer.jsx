@@ -1,4 +1,3 @@
-import React from "react";
 import { Github, Linkedin, Mail, Phone, Heart, ArrowUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import { personalInfo as defaultInfo } from "../data/portfolioData";
@@ -14,64 +13,65 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#060609] border-t border-white/10 relative overflow-hidden">
+    <footer className="bg-[#060609]/80 border-t border-white/10 relative overflow-hidden">
       {/* Background ambient lighting */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-32 bg-purple-600/10 blur-[100px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-16 pb-24 sm:pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           
           {/* Col 1: Brand & Status */}
           <div className="space-y-4 lg:col-span-2">
-            <Link to="/" className="inline-block">
+            <Link to="/" className="inline-block" aria-label="Saif Tandel, home">
               <span className="text-2xl font-black bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
                 Saif Tandel
               </span>
             </Link>
             <p className="text-gray-400 text-sm max-w-md leading-relaxed">
-              React.js & MERN Stack Developer specialized in building scalable CRM modules, enterprise RESTful APIs, and responsive digital platforms.
+              Freelance full-stack developer in Dubai building web apps, CRMs, dashboards, and websites for startups and growing businesses.
             </p>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-medium">
-              <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-              <span>Full Stack & MERN Stack Developer</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 motion-safe:animate-pulse" aria-hidden="true" />
+              <span>Available for new projects</span>
             </div>
           </div>
 
           {/* Col 2: Navigation */}
           <div className="space-y-3">
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider">
+            <h2 className="text-white font-bold text-sm uppercase tracking-wider">
               Navigation
-            </h4>
-            <nav className="flex flex-col space-y-2 text-sm text-gray-400">
+            </h2>
+            <nav aria-label="Footer" className="flex flex-col space-y-2 text-sm text-gray-400">
               <Link to="/" className="hover:text-purple-400 transition-colors">
                 Home
               </Link>
               <Link to="/services" className="hover:text-purple-400 transition-colors">
-                Technical Expertise
+                Services
               </Link>
               <Link to="/projects" className="hover:text-purple-400 transition-colors">
-                Featured Projects
+                Projects
               </Link>
               <Link to="/blogs" className="hover:text-purple-400 transition-colors">
-                Engineering Blogs
+                Blog
               </Link>
+              {/* Experience hidden for now
               <Link to="/experience" className="hover:text-purple-400 transition-colors">
                 Work Experience
-              </Link>
+              </Link> */}
               <Link to="/skills" className="hover:text-purple-400 transition-colors">
-                Technical Skills
+                Skills
               </Link>
               <Link to="/contact" className="hover:text-purple-400 transition-colors">
-                Contact Me
+                Get a Free Quote
               </Link>
             </nav>
           </div>
 
           {/* Col 3: Direct Connect */}
           <div className="space-y-4">
-            <h4 className="text-white font-bold text-sm uppercase tracking-wider">
+            <h2 className="text-white font-bold text-sm uppercase tracking-wider">
               Direct Contact
-            </h4>
+            </h2>
             <div className="space-y-2 text-sm text-gray-400">
               <div>
                 <a
@@ -100,7 +100,7 @@ const Footer = () => {
                 href={info.github || "https://github.com/saifcodes13"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 glass-panel rounded-xl text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-all hover:scale-110"
+                className="p-2.5 surface rounded-xl text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-[color,border-color,transform] duration-300 ease-out hover:-translate-y-0.5"
                 aria-label="GitHub"
               >
                 <Github className="w-4 h-4" />
@@ -109,14 +109,14 @@ const Footer = () => {
                 href={info.linkedin || "https://linkedin.com/in/saif-tandel"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 glass-panel rounded-xl text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-all hover:scale-110"
+                className="p-2.5 surface rounded-xl text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-[color,border-color,transform] duration-300 ease-out hover:-translate-y-0.5"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href={`mailto:${info.email || "saifcodes13@gmail.com"}`}
-                className="p-2.5 glass-panel rounded-xl text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-all hover:scale-110"
+                className="p-2.5 surface rounded-xl text-gray-400 hover:text-purple-400 hover:border-purple-500/30 transition-[color,border-color,transform] duration-300 ease-out hover:-translate-y-0.5"
                 aria-label="Email"
               >
                 <Mail className="w-4 h-4" />
@@ -126,10 +126,13 @@ const Footer = () => {
 
         </div>
 
+        <p className="wordmark mb-6" aria-hidden="true">Saifcodes</p>
+
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
           <p>© {currentYear} Saif Tandel. </p>
           <button
+            type="button"
             onClick={scrollToTop}
             className="flex items-center gap-1.5 text-gray-400 hover:text-purple-400 transition-colors"
           >

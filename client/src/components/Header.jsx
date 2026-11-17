@@ -1,134 +1,167 @@
-import React, { useState, useEffect } from "react";
-import { Menu, X, ShieldUser, Sparkles, MapPin } from "lucide-react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Menu, X, ShieldUser, ArrowRight } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
+import QuoteLink from "./ui/QuoteLink.jsx";
+
+const navItems = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+  { name: "Projects", path: "/projects" },
+  { name: "Blog", path: "/blogs" },
+  // { name: "Experience", path: "/experience" }, // hidden for now
+  { name: "Skills", path: "/skills" },
+  { name: "Contact", path: "/contact" },
+];
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 24);
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
-    { name: "Home", path: "/" },
-    { name: "Expertise", path: "/services", anchor: "#services" },
-    { name: "Projects", path: "/projects", anchor: "#projects" },
-    { name: "Blogs", path: "/blogs" },
-    { name: "Experience", path: "/experience", anchor: "#experience" },
-    { name: "Skills", path: "/skills", anchor: "#skills" },
-    // { name: "Education", path: "/#education", isAnchorOnly: true },
-    { name: "Contact", path: "/contact", anchor: "#contact" },
-  ];
+  // Close the mobile menu with Escape
+  useEffect(() => {
+    if (!isMobileMenuOpen) return undefined;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMobileMenuOpen]);
 
-  const handleNavClick = (item) => {
-    setIsMobileMenuOpen(false);
-    if (location.pathname === "/" && item.anchor) {
-      const element = document.querySelector(item.anchor);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  };
+  const closeMenu = () => setIsMobileMenuOpen(false);
+  const solid = isScrolled || isMobileMenuOpen;
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-[#08080c]/90 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/20"
-          : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        solid
+          ? "bg-[#08080c]/85 backdrop-blur-xl border-white/10 shadow-lg shadow-black/30"
+          : "bg-transparent border-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18 lg:h-20">
-          
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+        <div
+          className={`flex items-center justify-between transition-[height] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+            isScrolled ? "h-16" : "h-20"
+          }`}
+        >
           {/* Logo */}
           <Link
             to="/"
+            onClick={closeMenu}
+            aria-label="Saifcodes, home"
             className="flex items-center gap-2 group"
           >
-            <span className="text-xl lg:text-2xl font-black bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent group-hover:scale-105 transition-transform duration-300">
+            <span className="text-xl lg:text-2xl font-black tracking-tight bg-gradient-to-r from-white via-purple-200 to-purple-400 bg-clip-text text-transparent">
               Saifcodes
             </span>
-            <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+            <span
+              aria-hidden="true"
+              className="w-2 h-2 rounded-full bg-purple-500 transition-transform duration-500 ease-out group-hover:scale-150"
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-7">
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-7">
             {navItems.map((item) => (
               <NavLink
                 key={item.name}
                 to={item.path}
-                onClick={() => handleNavClick(item)}
+                end={item.path === "/"}
                 className={({ isActive }) =>
-                  `text-sm font-medium transition-colors duration-200 ${
-                    isActive && !item.isAnchorOnly
-                      ? "text-purple-400 font-semibold"
-                      : "text-gray-300 hover:text-purple-300"
+                  `nav-link text-sm font-medium transition-colors duration-300 ${
+                    isActive ? "text-white" : "text-gray-300 hover:text-white"
                   }`
                 }
               >
                 {item.name}
               </NavLink>
             ))}
-
-            <Link
-              to="/admin/login"
-              title="Admin Portal"
-              className="text-gray-400 hover:text-purple-400 transition-colors p-1"
-            >
-              <ShieldUser className="w-5 h-5" />
-            </Link>
-
-            {/* CTA */}
-            <Link
-              to="/contact"
-              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-300 shadow-md shadow-purple-600/20 hover:scale-105"
-            >
-              Request a Quote
-            </Link>
           </nav>
 
-          {/* Mobile Menu Toggle Button */}
-          <div className="flex items-center gap-3 md:hidden">
+          <div className="hidden lg:flex items-center gap-4">
             <Link
               to="/admin/login"
-              className="text-gray-400 hover:text-purple-400 p-1"
               title="Admin Portal"
+              aria-label="Admin portal"
+              className="text-gray-500 hover:text-purple-300 transition-colors duration-300 p-1"
             >
-              <ShieldUser className="w-5 h-5" />
+              <ShieldUser className="w-5 h-5" aria-hidden="true" />
             </Link>
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-gray-200 hover:text-purple-400 transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+
+            <QuoteLink className="btn btn-sm btn-primary">
+              Get a Free Quote
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </QuoteLink>
           </div>
 
+          {/* Mobile controls */}
+          <div className="flex items-center gap-2 lg:hidden">
+            <Link
+              to="/admin/login"
+              className="text-gray-500 hover:text-purple-300 p-2"
+              title="Admin Portal"
+              aria-label="Admin portal"
+            >
+              <ShieldUser className="w-5 h-5" aria-hidden="true" />
+            </Link>
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+              className="relative w-10 h-10 flex items-center justify-center text-gray-200 hover:text-white rounded-xl cursor-pointer"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-menu"
+            >
+              <Menu
+                size={24}
+                aria-hidden="true"
+                className={`absolute transition-[opacity,transform] duration-300 ease-out ${
+                  isMobileMenuOpen ? "opacity-0 rotate-90 scale-75" : "opacity-100"
+                }`}
+              />
+              <X
+                size={24}
+                aria-hidden="true"
+                className={`absolute transition-[opacity,transform] duration-300 ease-out ${
+                  isMobileMenuOpen ? "opacity-100" : "opacity-0 -rotate-90 scale-75"
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-[#0c0c14]/98 backdrop-blur-xl border-b border-white/10 px-6 py-6 space-y-4 animate-in slide-in-from-top-4 duration-300">
-          <nav className="flex flex-col space-y-3">
-            {navItems.map((item) => (
+      {/* Mobile drawer: stays mounted so it can animate open and closed */}
+      <div
+        id="mobile-menu"
+        className="mobile-menu lg:hidden"
+        data-open={isMobileMenuOpen}
+        inert={!isMobileMenuOpen}
+      >
+        <div className="overflow-hidden">
+          <nav
+            aria-label="Mobile"
+            className="flex flex-col px-5 sm:px-6 pt-2 pb-6 border-t border-white/[0.07]"
+          >
+            {navItems.map((item, idx) => (
               <NavLink
                 key={item.name}
                 to={item.path}
-                onClick={() => handleNavClick(item)}
+                end={item.path === "/"}
+                onClick={closeMenu}
+                style={{ "--i": idx }}
                 className={({ isActive }) =>
-                  `text-base font-medium py-1.5 transition-colors ${
-                    isActive && !item.isAnchorOnly
-                      ? "text-purple-400 font-semibold"
-                      : "text-gray-300 hover:text-purple-400"
+                  `mobile-menu__item py-3 text-base font-medium border-b border-white/[0.05] transition-colors ${
+                    isActive ? "text-purple-300" : "text-gray-200 hover:text-white"
                   }`
                 }
               >
@@ -136,18 +169,15 @@ const Header = () => {
               </NavLink>
             ))}
 
-            <div className="pt-4 border-t border-white/10 flex flex-col gap-3">
-              <Link
-                to="/contact"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="w-full text-center bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold py-3 rounded-xl"
-              >
-                Request a Quote
-              </Link>
+            <div className="mobile-menu__item pt-5" style={{ "--i": navItems.length }}>
+              <QuoteLink onClick={closeMenu} className="btn btn-primary w-full">
+                Get a Free Quote
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </QuoteLink>
             </div>
           </nav>
         </div>
-      )}
+      </div>
     </header>
   );
 };

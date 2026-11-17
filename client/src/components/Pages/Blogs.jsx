@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   BookOpen,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import Loader from "../Loader.jsx";
 import { usePortfolio } from "../../context/PortfolioContext.jsx";
+import Reveal from "../ui/Reveal.jsx";
 
 const Blogs = () => {
   const { blogs: contextBlogs, loading: contextLoading } = usePortfolio();
@@ -48,34 +49,32 @@ const Blogs = () => {
   const featuredBlog = publicBlogs.find((b) => b.featured) || publicBlogs[0];
 
   return (
-    <div className="pt-28 pb-24 bg-[#08080c] min-h-screen relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-20 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none -z-10" />
-      <div className="absolute bottom-20 right-10 w-[450px] h-[450px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+    <section aria-labelledby="blogs-heading" className="pt-32 pb-20 lg:pt-40 lg:pb-28 min-h-screen relative isolate overflow-hidden">
+      <div aria-hidden="true" className="section-glow -z-10 -left-64 top-10" />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+
         {/* Header */}
-        <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <BookOpen className="w-3.5 h-3.5" />
-            <span>Developer Insights & Case Studies</span>
-          </div>
-          <h1 className="text-4xl lg:text-6xl font-extrabold text-white tracking-tight">
-            Engineering <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">Blogs</span>
+        <Reveal className="text-center max-w-3xl mx-auto mb-12">
+          <p className="eyebrow mb-5">
+            <BookOpen className="w-3.5 h-3.5" aria-hidden="true" />
+            <span>Insights & Case Studies</span>
+          </p>
+          <h1 id="blogs-heading" className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1] text-balance">
+            Engineering <span className="text-gradient">Blog</span>
           </h1>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mt-4 mb-6 rounded-full" />
-          <p className="text-gray-400 text-base lg:text-lg max-w-2xl mx-auto">
+          <p className="mt-5 text-gray-400 text-base lg:text-lg leading-relaxed text-pretty">
             Practical articles on full-stack web engineering, cloud deployment architectures, CRM development, and database performance tuning.
           </p>
-        </div>
+        </Reveal>
 
         {/* Search & Filter Bar */}
         <div className="max-w-4xl mx-auto mb-14 space-y-4">
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" aria-hidden="true" />
             <input
-              type="text"
+              type="search"
+              aria-label="Search articles"
               placeholder="Search articles by title, topic, or keyword (e.g. CloudNest, CRM, MySQL, Nginx)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -87,11 +86,13 @@ const Blogs = () => {
             {categories.map((cat) => (
               <button
                 key={cat}
+                type="button"
+                aria-pressed={activeCategory === cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                   activeCategory === cat
-                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-600/30 scale-105"
-                    : "glass-panel text-gray-300 hover:text-white hover:border-purple-500/30"
+                    ? "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md shadow-purple-600/30"
+                    : "surface text-gray-300 hover:text-white hover:border-purple-500/30"
                 }`}
               >
                 {cat}
@@ -106,12 +107,15 @@ const Blogs = () => {
           <>
             {/* Featured Post Hero Card (shown when no search query is active) */}
         {!searchQuery && activeCategory === "All" && featuredBlog && (
-          <div className="mb-16">
-            <div className="glass-panel glass-panel-hover rounded-3xl overflow-hidden border border-purple-500/30 grid md:grid-cols-12 gap-6 group">
+          <Reveal className="mb-16">
+            <div className="surface lift rounded-3xl overflow-hidden border border-purple-500/30 grid md:grid-cols-12 gap-6 group">
               <div className="md:col-span-6 relative aspect-video md:aspect-auto overflow-hidden bg-[#11111b]">
                 <img
                   src={featuredBlog.coverImage}
-                  alt={featuredBlog.title}
+                  alt={`Cover image for ${featuredBlog.title}`}
+                  width={900}
+                  height={600}
+                  decoding="async"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute top-4 left-4">
@@ -174,21 +178,24 @@ const Blogs = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         )}
 
         {/* Blog Post Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredBlogs.map((blog) => (
+          {filteredBlogs.map((blog, idx) => (
+            <Reveal key={blog.id || blog._id} delay={(idx % 3) * 90} className="h-full">
             <article
-              key={blog.id || blog._id}
-              className="glass-panel glass-panel-hover rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between group"
+              className="surface lift h-full rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between group"
             >
               <div>
                 <div className="relative aspect-video overflow-hidden bg-[#11111b]">
                   <img
                     src={blog.coverImage}
-                    alt={blog.title}
+                    alt={`Cover image for ${blog.title}`}
+                    width={900}
+                    height={600}
+                    decoding="async"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
@@ -242,11 +249,12 @@ const Blogs = () => {
                 </Link>
               </div>
             </article>
+            </Reveal>
           ))}
         </div>
 
         {filteredBlogs.length === 0 && (
-          <div className="text-center py-20 glass-panel rounded-2xl border border-white/10 max-w-lg mx-auto">
+          <div className="text-center py-20 surface rounded-2xl border border-white/10 max-w-lg mx-auto">
             <p className="text-gray-300 text-lg mb-2">No articles found</p>
             <p className="text-gray-500 text-sm">
               Try searching with another keyword or select "All" categories.
@@ -257,7 +265,7 @@ const Blogs = () => {
         )}
 
       </div>
-    </div>
+    </section>
   );
 };
 

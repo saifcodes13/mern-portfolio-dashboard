@@ -1,34 +1,24 @@
-import React from "react";
 import { Briefcase, Calendar, MapPin, CheckCircle2, ChevronRight } from "lucide-react";
 import { experiences } from "../data/portfolioData";
+import Section, { SectionHeader } from "./ui/Section.jsx";
+import Reveal from "./ui/Reveal.jsx";
 
 const Experience = () => {
   return (
-    <section id="experience" className="py-24 lg:py-32 bg-[#08080c] relative overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/3 left-0 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute bottom-10 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
-
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Briefcase className="w-3.5 h-3.5" />
-            <span>Career Journey</span>
-          </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
-            Work <span className="bg-gradient-to-r from-purple-400 via-purple-300 to-indigo-400 bg-clip-text text-transparent">Experience</span>
-          </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-indigo-500 mx-auto mt-4 rounded-full" />
-          <p className="text-gray-400 text-base lg:text-lg max-w-2xl mx-auto mt-4">
-            Proven track record of building production CRM modules, RESTful microservices, and high-performance user interfaces.
-          </p>
-        </div>
+    <Section id="experience" labelledBy="experience-heading" glow="left">
+      <SectionHeader
+        id="experience-heading"
+        eyebrow="Track Record"
+        icon={Briefcase}
+        title="Work"
+        highlight="Experience"
+        description="Production experience building CRM modules, REST APIs, and high-performance interfaces for real businesses."
+      />
 
         {/* Timeline Container */}
         <div className="relative border-l-2 border-purple-500/20 ml-4 md:ml-32 space-y-12">
           {experiences.map((exp, index) => (
-            <div key={exp.id || index} className="relative pl-8 md:pl-12 group">
+            <Reveal key={exp.id || index} className="relative pl-8 md:pl-12 group">
               {/* Timeline Indicator Dot */}
               <div className="absolute -left-[9px] top-1.5 w-4 h-4 rounded-full bg-[#08080c] border-2 border-purple-400 group-hover:border-indigo-300 group-hover:scale-125 transition-all duration-300">
                 <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mx-auto mt-0.5 group-hover:bg-indigo-300" />
@@ -44,7 +34,7 @@ const Experience = () => {
               )}
 
               {/* Card */}
-              <div className="glass-panel glass-panel-hover p-6 lg:p-8 rounded-2xl border border-white/10 relative">
+              <div className="surface lift p-6 lg:p-8 rounded-2xl border border-white/10 relative">
                 {/* Header Row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                   <div>
@@ -106,11 +96,10 @@ const Experience = () => {
                   ))}
                 </div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
-      </div>
-    </section>
+    </Section>
   );
 };
 
